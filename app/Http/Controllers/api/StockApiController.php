@@ -29,6 +29,17 @@ class StockApiController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'company_name' => 'required',
+            'unit_price' => 'required'
+        ]);
+
+        $stock =  Stock::create($request->all());
+        if ($stock) {
+            return successResponse($stock, 201, 'New Stock added Succesfully');
+        } else {
+            return errorResponse(500, 'Error while saving new Stock');
+        }
     }
 
     /**
@@ -52,6 +63,22 @@ class StockApiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $stock = Stock::where('id', $id)->first();
+        if ($stock) {
+            $this->validate($request, [
+                'company_name' => 'required',
+                'unit_price' => 'required'
+            ]);
+            $q =  $stock->update($request->all());
+            if ($q) {
+                $updatedStock = Stock::where('id', $id)->first();
+                return successResponse($updatedStock, 200, 'Stock updated Successfully');
+            } else {
+                return errorResponse(500, 'Failed to update Stock');
+            }
+        } else {
+            return errorResponse(500, 'Stock not found');
+        }
     }
 
     /**
@@ -63,5 +90,9 @@ class StockApiController extends Controller
     public function destroy($id)
     {
         //
+        $stock = Stock::where('id', $id)->first();
+        if ($stock) {
+            $stock->update(['status' => 2]);
+        }
     }
 }

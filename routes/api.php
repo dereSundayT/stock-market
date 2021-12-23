@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\StockApiController;
+use App\Http\Controllers\api\VirtualInvestmentApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'api/v1'], function () {
     Route::apiResource('stocks', StockApiController::class);
+    Route::post('virtual-investment/clients', [VirtualInvestmentApiController::class, 'addNewClient']);
+    Route::get('virtual-investment/clients', [VirtualInvestmentApiController::class, 'getAllClient']);
+    Route::apiResource('virtual-investment', VirtualInvestmentApiController::class);
 });
