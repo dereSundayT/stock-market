@@ -15,6 +15,11 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->string('company_name');
+            $table->string('unit_price');
+            $table->boolean('status')->default(1); //0 inactive 1: active 2 : deleted
+            // $table->foreignId('created_by');
+
             $table->timestamps();
         });
     }

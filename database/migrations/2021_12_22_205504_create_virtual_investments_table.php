@@ -15,6 +15,12 @@ class CreateVirtualInvestmentsTable extends Migration
     {
         Schema::create('virtual_investments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('stock_id')->constrained()->onDelete('cascade');
+            $table->string('volume');
+            $table->decimal('purchase_price', 5, 2);
+            // $table->decimal('current_price', 5, 2);
+
             $table->timestamps();
         });
     }
