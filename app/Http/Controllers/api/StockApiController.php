@@ -66,7 +66,6 @@ class StockApiController extends Controller
         $stock = Stock::where('id', $id)->first();
         if ($stock) {
             $this->validate($request, [
-                'company_name' => 'required',
                 'unit_price' => 'required'
             ]);
             $q =  $stock->update($request->all());
@@ -91,8 +90,13 @@ class StockApiController extends Controller
     {
         //
         $stock = Stock::where('id', $id)->first();
+
         if ($stock) {
             $stock->update(['status' => 2]);
+
+            return successResponse([], 200, 'Stock deleted Successfully');
+        } else {
+            return errorResponse(500, 'Failed to delete Stock');
         }
     }
 }

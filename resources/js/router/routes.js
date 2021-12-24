@@ -6,7 +6,7 @@ const routes = [
     },
     {
         path: "/stocks",
-        component: () => import("../pages/Stock.vue"),
+        component: () => import("../pages/stock/Stock.vue"),
         name: "stock",
     },
     {
@@ -16,7 +16,7 @@ const routes = [
     },
     {
         path: "/virtual-investment",
-        component: () => import("../pages/VirtualInvestment.vue"),
+        component: () => import("../pages/virtual/VirtualInvestment.vue"),
         name: "virtualinvestment",
     },
 ];

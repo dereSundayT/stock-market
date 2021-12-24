@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+    protected $fillable = ['username', 'virtual_wallet'];
+
+    protected $append = [];
+
+
+    public function getProfitStatusAttribute()
+    {
+    }
 }

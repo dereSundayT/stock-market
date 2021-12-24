@@ -1,13 +1,14 @@
 <template>
-    <div>
+    <div data-app>
         <div id="wrapper">
+            <loading v-if="loading"/>
+            <snack-bar :msg="msg" v-if="snackbar"/>
             <side-bar/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <top-bar/>
                     <div class="container-fluid"> 
                         <slot name="contents"></slot>
-                        
                      </div>
                 </div>
                 <footer class="sticky-footer bg-white">
@@ -29,8 +30,11 @@
 <script>
 import SideBar from './layouts/SideBar.vue'
 import TopBar from'./layouts/TopBar.vue'
+import Loading from '../components/Loading.vue'
+import SnackBar from '../components/SnackBar.vue'
 
 export default {
-    components:{SideBar,TopBar}
+    components:{SideBar,TopBar,Loading,SnackBar},
+    props: ['loading','snackbar','msg'],
 }
 </script>

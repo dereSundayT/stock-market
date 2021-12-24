@@ -10,12 +10,10 @@ use Illuminate\Http\Request;
 
 class VirtualInvestmentApiController extends Controller
 {
-
-
     public function addNewClient(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required'
+            'username' => 'required|unique:clients,username'
         ]);
 
         $newClient =  Client::create($request->all());
@@ -44,7 +42,6 @@ class VirtualInvestmentApiController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -61,15 +58,17 @@ class VirtualInvestmentApiController extends Controller
         ]);
         ////gett only the items needed
         $stock =  Stock::where('id', $request->stock_id)->first();
-        //
+
         $client = Client::where('id', $request->client_id)->first();
+        //
         $currentWalletBalance = $client->virtual_wallet;
         //
         $purchasePrice = $request->volume * $stock->unit_price;
         //check if the current balance is greater than the current purchase price
         $newBal = $currentWalletBalance - $purchasePrice;
         if ($newBal > 0) {
-            $request->purchase_price = $purchasePrice;
+            $request['purchase_price'] = $purchasePrice;
+
             $newPurchase = VirtualInvestment::create($request->all());
             if ($newPurchase) {
                 //use db Transaction
@@ -84,8 +83,7 @@ class VirtualInvestmentApiController extends Controller
             return errorResponse(419, 'Insuffient Balance');
         }
     }
-
-
+    //
     public function allStockPurchaseByClient($client_id)
     {
         $stockPurchase =  VirtualInvestment::where('client_id', $client_id)->get();
@@ -94,39 +92,5 @@ class VirtualInvestmentApiController extends Controller
         } else {
             return errorResponse(500, 'Failed to fetch purchase history for this client');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
