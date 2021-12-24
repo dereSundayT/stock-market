@@ -19,5 +19,10 @@ const routes = [
         component: () => import("../pages/virtual/VirtualInvestment.vue"),
         name: "virtualinvestment",
     },
+    {
+        path: "/virtual-investment/clients/:clientID",
+        component: () => import("../pages/virtual/ClientsStock.vue"),
+        name: "clientstock",
+    },
 ];
 export default routes;

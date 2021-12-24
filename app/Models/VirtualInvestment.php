@@ -9,7 +9,7 @@ class VirtualInvestment extends Model
 {
     use HasFactory;
     protected $fillable = ['client_id', 'stock_id', 'volume', 'purchase_price'];
-    protected $appends = ['current_price', 'profit_status'];
+    protected $appends = ['current_price', 'profit_status', 'formated_purchase_price', 'formated_current_price'];
 
 
     public function Stock()
@@ -36,10 +36,22 @@ class VirtualInvestment extends Model
         $amount = $total_current_price - $purchase_price;
 
         return [
-            'amount' => $amount,
+            'amount' =>   $amount,
             'profit' => $amount > 0 ? true : false
         ];
-        //volume
-        //stock_id
+    }
+
+
+
+
+
+    public function getFormatedPurchasePriceAttribute($value)
+    {
+        return "€ $this->purchase_price";
+    }
+
+    public function getFormatedCurrentPriceAttribute($value)
+    {
+        return "€ $this->current_price";
     }
 }

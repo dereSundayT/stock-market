@@ -1,13 +1,13 @@
 <template>
     <dashboard-wrapper :loading="loading" :snackbar="snackbar" :msg="msg"> 
         <template slot="contents"> 
-            <h1 class="h3 mb-2 text-gray-800">Stock Listing</h1>
+            <h1 class="h3 mb-2 text-gray-800">All Client</h1>
             <p class="mb-4"></p>
             <div class="card shadow mb-4">
                 <!-- page heading -->
                 <div class="card-header py-3 d-flex justify-content-between">
-                    <button class="btn btn-danger btn-sm" @click="addNewStockForm">Trash()</button>
-                    <button class="btn btn-outline-primary btn-sm" @click="addNewStockForm">New Stock</button>
+                    <button class="btn btn-danger btn-sm" @click="addNewClientForm">Trash()</button>
+                    <button class="btn btn-outline-primary btn-sm" @click="addNewClientForm">New Client</button>
                 </div>
                 <!-- end of page heading -->
                 <div class="card-body">
@@ -37,16 +37,20 @@
                                     <v-icon
                                         small
                                         class="mr-2"
+                                        title='Fund Wallet'
                                         @click="editUnitPrice(item)"
                                     >
                                         mdi-pencil
                                     </v-icon>
-                                    <v-icon
-                                        small
-                                        @click="confirmDel(item)"
-                                    >
-                                        mdi-delete
-                                    </v-icon>
+                                    <router-link :to="{name:'clientstock',params: { clientID: item.id}}">
+                                         <v-icon
+                                            small
+                                            title="View Stocks"
+                                        >
+                                            mdi-eye
+                                        </v-icon>
+                                     </router-link>
+                                   
                                 </template>
                             </v-data-table>
                         </v-card>
@@ -72,19 +76,19 @@
                                                 <v-text-field
                                                 label="Company name*"
                                                 type="text"
-                                                v-model="stock.company_name"
+                                                v-model="client.username"
                                                 required
                                                 ></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
-                                                <v-text-field
+                                                <!-- <v-text-field
                                                 label="Stock unit Price*"
                                                 type="number"
-                                                v-model="stock.unit_price"
+                                                v-model="client.wallet_balance"
                                                 required
-                                                ></v-text-field>
+                                                ></v-text-field> -->
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -125,50 +129,7 @@
                             </v-card>
                         </v-dialog>
                     </v-row>
-                   <!-- confirm delete -->
-                    <v-dialog
-                        v-model="delDialog"
-                        width="500">
-                        <v-card>
-                            <v-card-title class="text-h5 grey lighten-2">
-                                Confirm Delete
-                            </v-card-title>
-                            <v-card-text>
-                              Are you sure you want to delete this stock <b>{{stock.company_name}}</b>
-                            </v-card-text>
-                            <v-divider></v-divider>
-                            <!--  -->
-                            <v-card-actions v-if="formButtonControl">
-                            <v-spacer></v-spacer>
-                                <v-btn
-                                 class="ma-2"
-                                    color="primary"
-                                    depressed
-                                    text
-                                    @click="deleteStock('no')"
-                                >
-                                    Cancel
-                                </v-btn>
-                                <v-btn
-                                    color="error"
-                                    text
-                                    depressed
-                                    @click="deleteStock('yes')"
-                                >
-                                    Yes, Delete
-                                </v-btn>
-                            </v-card-actions>
-                            <!--  -->
-                            <v-card-actions v-else>
-                                    <v-spacer></v-spacer>
-                                     <v-progress-circular
-                                        indeterminate
-                                        size="30">
-                                     </v-progress-circular>
-                                </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                <!-- end of confirm Delete -->
+                 
                 </div>
             </div>
         </template>
@@ -199,35 +160,33 @@ export default {
                 sortable: false,
                 value: 'index',
             },
-            { text: 'Company', value: 'company_name' },
-            { text: 'Unit price', value: 'formated_unit_price' },
-            { text: 'Updated at', value: 'updated_at' },
+            { text: 'Client', value: 'username' },
+            { text: 'Cash Balance', value: 'formated_wallet_bal' },
+            { text: 'Gain/Loss', value: 'profit_status' },
             { text: 'Action', value: 'actions' },
             ],
-            stocks: [],
+            clients: [],
             edit: false,
-            stock : {
-                company_name : '',
-                unit_price : ''
+            client : {
+                username : '',
             }
       }
     },
     created () {
-        this.fetchStocks()
+        this.fetchClients()
     },
     methods:{
-        addNewStockForm () {
+        addNewClientForm () {
             this.edit = false
             this.dialog = true
-             this.stock = {
-                company_name : '',
-                unit_price : ''
+             this.client = {
+                username : '',
             }
         },
-        async addNewStock() {
+        async addNewClient() {
             this.loading = true
             this.formButtonControl = false
-            const res = await axios.post('api/v1/stocks',this.stock)
+            const res = await axios.post('api/v1/virtual-investment/clients',this.client)
             if(res.data.status==='success'){
                 this.msg = res.data.message
                 this.dialog = false
@@ -239,36 +198,35 @@ export default {
          }
         this.loading = false
         this.formButtonControl = true
-
         },
+        //
         addUpdateStock () {
             if(this.edit){
                 //edit
                 this.updateUnitPrice()
-
             }else{
                 //create new stock
-                this.addNewStock()
+                this.addNewClient()
             }
         },
-       async fetchStocks() {
+       async fetchClients() {
            this.loading = true
            try {
-               const res = await axios.get('api/v1/stocks')
-                if(res.data.status==='success'){
-            this.msg = res.data.message
-            let initialStock = res.data.data
-          //sorting by sortPrice
-            initialStock.sort((a,b) => a.unit_price - b.unit_price)
-            initialStock.reverse()
-            this.stocks =  initialStock
-         }else{
-             this.msg = res.data.message
-         }
-         this.loading = false
-        this.formButtonControl = true
-               
-           } catch (error) {
+               const res = await axios.get('api/v1/virtual-investment/clients')
+               if(res.data.status==='success'){
+                    this.msg = res.data.message
+                    let initialClient = res.data.data
+                    //sorting by sortPrice
+                    console.log(initialClient)
+                    // initialStock.sort((a,b) => a.unit_price - b.unit_price)
+                    // initialStock.reverse()
+                    this.clients =  initialClient
+                }else{
+                    this.msg = res.data.message
+                }
+                this.loading = false
+                this.formButtonControl = true   
+            } catch (error) {
                this.loading = false
            }
         },
@@ -338,7 +296,7 @@ export default {
     },
     computed: {
     itemsWithIndex() {
-      return this.stocks.map(
+      return this.clients.map(
         (items, index) => ({
           ...items,
           index: index + 1

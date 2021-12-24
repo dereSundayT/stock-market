@@ -86,9 +86,10 @@ class VirtualInvestmentApiController extends Controller
     //
     public function allStockPurchaseByClient($client_id)
     {
-        $stockPurchase =  VirtualInvestment::where('client_id', $client_id)->get();
+        $stockPurchase =  VirtualInvestment::with(['stock'])->where('client_id', $client_id)->get();
+        $stocks = Stock::where('status', 1)->get();
         if ($stockPurchase) {
-            return successResponse($stockPurchase, 200, 'Successfully fetched Stock Purchase');
+            return successResponse($stockPurchase, 200, 'Successfully fetched Stock Purchase', ["stocks" => $stocks]);
         } else {
             return errorResponse(500, 'Failed to fetch purchase history for this client');
         }

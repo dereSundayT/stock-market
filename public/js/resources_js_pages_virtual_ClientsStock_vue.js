@@ -1,4 +1,4 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_pages_virtual_VirtualInvestment_vue"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_pages_virtual_ClientsStock_vue"],{
 
 /***/ "./node_modules/@babel/runtime/regenerator/index.js":
 /*!**********************************************************!*\
@@ -105,10 +105,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -237,40 +237,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -281,7 +247,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       loading: false,
       dialog: false,
-      delDialog: false,
       search: '',
       formButtonControl: true,
       //
@@ -294,264 +259,123 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         sortable: false,
         value: 'index'
       }, {
-        text: 'Client',
-        value: 'username'
+        text: 'Company',
+        value: 'stock.company_name'
       }, {
-        text: 'Cash Balance',
-        value: 'formated_wallet_bal'
+        text: 'Volume',
+        value: 'volume'
+      }, {
+        text: 'Purchase Price',
+        value: 'formated_purchase_price'
+      }, {
+        text: 'Current Price',
+        value: 'formated_current_price'
       }, {
         text: 'Gain/Loss',
-        value: 'profit_status'
-      }, {
-        text: 'Action',
-        value: 'actions'
+        value: 'profit_status.amount'
       }],
-      clients: [],
-      edit: false,
-      client: {
-        username: ''
+      clientID: '',
+      stocks: [],
+      mystocks: [],
+      stock: {
+        "client_id": this.clientID,
+        "stock_id": '',
+        "volume": 1
       }
     };
   },
   created: function created() {
-    this.fetchClients();
+    console.log();
+    var cid = this.$route.params.clientID;
+    this.clientID = cid;
+    this.fetchClientStocks(cid);
   },
   methods: {
-    addNewClientForm: function addNewClientForm() {
-      this.edit = false;
-      this.dialog = true;
-      this.client = {
-        username: ''
-      };
-    },
-    addNewClient: function addNewClient() {
+    fetchClientStocks: function fetchClientStocks(id) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res;
+        var res, initialStock;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this.loading = true;
-                _this.formButtonControl = false;
+                _context.prev = 1;
                 _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/v1/virtual-investment/clients', _this.client);
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/v1/virtual-investment/clients/".concat(id));
 
               case 4:
                 res = _context.sent;
 
                 if (res.data.status === 'success') {
                   _this.msg = res.data.message;
-                  _this.dialog = false;
-                  _this.snackbar = true;
-                  _this.stock = {};
+                  initialStock = res.data.data; //sorting by sortPrice
+                  // console.log(initialClient)
+                  // initialStock.sort((a,b) => a.unit_price - b.unit_price)
+                  // initialStock.reverse()
 
-                  _this.fetchStocks();
+                  _this.mystocks = initialStock;
+                  _this.stocks = res.data.stocks;
                 } else {
                   _this.msg = res.data.message;
                 }
 
                 _this.loading = false;
                 _this.formButtonControl = true;
+                _context.next = 13;
+                break;
 
-              case 8:
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](1);
+                _this.loading = false;
+
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[1, 10]]);
       }))();
     },
     //
-    addUpdateStock: function addUpdateStock() {
-      if (this.edit) {
-        //edit
-        this.updateUnitPrice();
-      } else {
-        //create new stock
-        this.addNewClient();
-      }
-    },
-    fetchClients: function fetchClients() {
-      var _this2 = this;
-
+    fundClientWallet: function fundClientWallet() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var res, initialClient;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.loading = true;
-                _context2.prev = 1;
-                _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().get('api/v1/virtual-investment/clients');
-
-              case 4:
-                res = _context2.sent;
-
-                if (res.data.status === 'success') {
-                  _this2.msg = res.data.message;
-                  initialClient = res.data.data; //sorting by sortPrice
-
-                  console.log(initialClient); // initialStock.sort((a,b) => a.unit_price - b.unit_price)
-                  // initialStock.reverse()
-
-                  _this2.clients = initialClient;
-                } else {
-                  _this2.msg = res.data.message;
-                }
-
-                _this2.loading = false;
-                _this2.formButtonControl = true;
-                _context2.next = 13;
-                break;
-
-              case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](1);
-                _this2.loading = false;
-
-              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 10]]);
+        }, _callee2);
       }))();
     },
-    //
-    updateUnitPrice: function updateUnitPrice() {
-      var _this3 = this;
+    purchaseStock: function purchaseStock() {
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var data, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.loading = true;
-                _this3.formButtonControl = false;
-                data = {
-                  unit_price: _this3.stock.unit_price
-                }; //
+                console.log(_this2.stock);
 
-                _context3.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().put("/api/v1/stocks/".concat(_this3.stock.id), data);
-
-              case 5:
-                res = _context3.sent;
-
-                if (res.data.status === 'success') {
-                  _this3.msg = res.data.message;
-                  _this3.dialog = false;
-                  _this3.snackbar = true;
-                  _this3.stock = {
-                    company_name: '',
-                    unit_price: ''
-                  };
-
-                  _this3.fetchStocks();
-                } else {
-                  _this3.msg = res.data.message;
-                }
-
-                _this3.loading = false;
-                _this3.formButtonControl = true;
-
-              case 9:
+              case 1:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
       }))();
-    },
-    //
-    editUnitPrice: function editUnitPrice(stock) {
-      this.dialog = true;
-      this.stock = stock;
-      this.edit = true; // console.log(stock)
-    },
-    confirmDel: function confirmDel(stock) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this4.stock = stock;
-                _this4.delDialog = true;
-
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    deleteStock: function deleteStock(data) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (!(data === 'no')) {
-                  _context5.next = 5;
-                  break;
-                }
-
-                _this5.delDialog = false;
-                _this5.stock = {
-                  company_name: '',
-                  unit_price: ''
-                };
-                _context5.next = 13;
-                break;
-
-              case 5:
-                _this5.loading = true;
-                _this5.formButtonControl = false;
-                _context5.next = 9;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("api/v1/stocks/".concat(_this5.stock.id));
-
-              case 9:
-                res = _context5.sent;
-
-                if (res.data.status === 'success') {
-                  _this5.msg = res.data.message;
-                  _this5.delDialog = false;
-                  _this5.snackbar = true;
-                  _this5.stock = {
-                    company_name: '',
-                    unit_price: ''
-                  };
-
-                  _this5.fetchStocks();
-                } else {
-                  _this5.msg = res.data.message;
-                }
-
-                _this5.loading = false;
-                _this5.formButtonControl = true;
-
-              case 13:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
   },
+  //
   computed: {
     itemsWithIndex: function itemsWithIndex() {
-      return this.clients.map(function (items, index) {
+      return this.mystocks.map(function (items, index) {
         return _objectSpread(_objectSpread({}, items), {}, {
           index: index + 1
         });
@@ -3140,10 +2964,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3151,8 +2975,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VirtualInvestment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./VirtualInvestment.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VirtualInvestment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientsStock_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ClientsStock.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientsStock_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -3241,19 +3065,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a& ***!
+  \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./VirtualInvestment.vue?vue&type=template&id=eaa2fffe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ClientsStock.vue?vue&type=template&id=64373b0a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a&");
 
 
 /***/ }),
@@ -3668,10 +3492,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe& ***!
-  \********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3690,7 +3514,8 @@ var render = function () {
     [
       _c("template", { slot: "contents" }, [
         _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [
-          _vm._v("All Client"),
+          _vm._v("Clients Stock Lisiting  "),
+          _c("small", [_vm._v("username")]),
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "mb-4" }),
@@ -3703,19 +3528,23 @@ var render = function () {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-danger btn-sm",
-                  on: { click: _vm.addNewClientForm },
+                  staticClass: "btn btn-primary btn-sm",
+                  on: { click: _vm.fundClientWallet },
                 },
-                [_vm._v("Trash()")]
+                [_vm._v("Fund Wallet")]
               ),
               _vm._v(" "),
               _c(
                 "button",
                 {
                   staticClass: "btn btn-outline-primary btn-sm",
-                  on: { click: _vm.addNewClientForm },
+                  on: {
+                    click: function ($event) {
+                      _vm.dialog = true
+                    },
+                  },
                 },
-                [_vm._v("New Client")]
+                [_vm._v("Purchase Stock")]
               ),
             ]
           ),
@@ -3760,62 +3589,6 @@ var render = function () {
                         loading: _vm.loading,
                         "loading-text": "Loading... Please wait",
                       },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "item.actions",
-                          fn: function (ref) {
-                            var item = ref.item
-                            return [
-                              _c(
-                                "v-icon",
-                                {
-                                  staticClass: "mr-2",
-                                  attrs: { small: "", title: "Fund Wallet" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.editUnitPrice(item)
-                                    },
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    mdi-pencil\n                                "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  attrs: {
-                                    to: {
-                                      name: "clientstock",
-                                      params: { clientID: item.id },
-                                    },
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      attrs: {
-                                        small: "",
-                                        title: "View Stocks",
-                                      },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                        mdi-eye\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ],
-                                1
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
                     }),
                   ],
                   1
@@ -3845,13 +3618,9 @@ var render = function () {
                           _c(
                             "v-card-title",
                             [
-                              _vm.edit
-                                ? _c("span", { staticClass: "text-h5" }, [
-                                    _vm._v("Update Stock Unit Price"),
-                                  ])
-                                : _c("span", { staticClass: "text-h5" }, [
-                                    _vm._v("Add new Stock "),
-                                  ]),
+                              _c("span", { staticClass: "text-h5" }, [
+                                _vm._v("Purchase a Stock"),
+                              ]),
                               _vm._v(" "),
                               _c("v-spacer"),
                             ],
@@ -3867,38 +3636,59 @@ var render = function () {
                                   _c(
                                     "v-row",
                                     [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              label: "Company name*",
-                                              type: "text",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.client.username,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.client,
-                                                  "username",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "client.username",
-                                            },
+                                      _c("v-col", { attrs: { cols: "12" } }, [
+                                        _c(
+                                          "select",
+                                          { staticClass: "form-group" },
+                                          _vm._l(_vm.stocks, function (stock) {
+                                            return _c(
+                                              "option",
+                                              { key: stock.id },
+                                              [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(stock.company_name) +
+                                                    " "
+                                                ),
+                                              ]
+                                            )
                                           }),
-                                        ],
-                                        1
-                                      ),
+                                          0
+                                        ),
+                                      ]),
                                     ],
                                     1
                                   ),
                                   _vm._v(" "),
                                   _c(
                                     "v-row",
-                                    [_c("v-col", { attrs: { cols: "12" } })],
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label: "Volume*",
+                                              type: "number",
+                                              required: "",
+                                            },
+                                            model: {
+                                              value: _vm.stock.volume,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.stock,
+                                                  "volume",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "stock.volume",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ],
                                     1
                                   ),
                                 ],
@@ -3934,37 +3724,21 @@ var render = function () {
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm.edit
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "blue darken-1",
-                                            text: "",
-                                          },
-                                          on: { click: _vm.addUpdateStock },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Update\n                                "
-                                          ),
-                                        ]
-                                      )
-                                    : _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "blue darken-1",
-                                            text: "",
-                                          },
-                                          on: { click: _vm.addUpdateStock },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Add\n                                "
-                                          ),
-                                        ]
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: "",
+                                      },
+                                      on: { click: _vm.purchaseStock },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    BUY\n                                "
                                       ),
+                                    ]
+                                  ),
                                 ],
                                 1
                               )
@@ -4326,10 +4100,10 @@ component.options.__file = "resources/js/pages/layouts/TopBar.vue"
 
 /***/ }),
 
-/***/ "./resources/js/pages/virtual/VirtualInvestment.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/pages/virtual/VirtualInvestment.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/pages/virtual/ClientsStock.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/virtual/ClientsStock.vue ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4337,8 +4111,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VirtualInvestment.vue?vue&type=template&id=eaa2fffe& */ "./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=template&id=eaa2fffe&");
-/* harmony import */ var _VirtualInvestment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VirtualInvestment.vue?vue&type=script&lang=js& */ "./resources/js/pages/virtual/VirtualInvestment.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ClientsStock.vue?vue&type=template&id=64373b0a& */ "./resources/js/pages/virtual/ClientsStock.vue?vue&type=template&id=64373b0a&");
+/* harmony import */ var _ClientsStock_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientsStock.vue?vue&type=script&lang=js& */ "./resources/js/pages/virtual/ClientsStock.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
@@ -4349,11 +4123,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
 /* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
 /* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -4362,9 +4135,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _VirtualInvestment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__.render,
-  _VirtualInvestment_vue_vue_type_template_id_eaa2fffe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ClientsStock_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ClientsStock_vue_vue_type_template_id_64373b0a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -4387,13 +4160,12 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_9__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__["default"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_9__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["default"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__["default"]})
 
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/virtual/VirtualInvestment.vue"
+component.options.__file = "resources/js/pages/virtual/ClientsStock.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
