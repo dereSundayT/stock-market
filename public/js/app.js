@@ -5358,6 +5358,11 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_pages_virtual_ClientsStock_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../pages/virtual/ClientsStock.vue */ "./resources/js/pages/virtual/ClientsStock.vue"));
   },
   name: "clientstock"
+}, {
+  path: "*",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_pages_PageNotFound_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../pages/PageNotFound.vue */ "./resources/js/pages/PageNotFound.vue"));
+  }
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -46447,7 +46452,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBun
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_pages_Login_vue":1,"resources_js_pages_stock_Stock_vue":1,"resources_js_pages_Dashboard_vue":1,"resources_js_pages_virtual_VirtualInvestment_vue":1,"resources_js_pages_virtual_ClientsStock_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_pages_Login_vue":1,"resources_js_pages_stock_Stock_vue":1,"resources_js_pages_Dashboard_vue":1,"resources_js_pages_virtual_VirtualInvestment_vue":1,"resources_js_pages_virtual_ClientsStock_vue":1,"resources_js_pages_PageNotFound_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

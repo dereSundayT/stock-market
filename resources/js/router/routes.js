@@ -24,5 +24,9 @@ const routes = [
         component: () => import("../pages/virtual/ClientsStock.vue"),
         name: "clientstock",
     },
+    {
+        path: "*",
+        component: () => import("../pages/PageNotFound.vue"),
+    },
 ];
 export default routes;
