@@ -110,6 +110,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.token = localStorage.getItem('token');
     this.authData = JSON.parse(localStorage.getItem('authData'));
+
+    if (this.token === null) {
+      this.$router.push('home');
+    }
   }
 });
 
@@ -126,6 +130,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -159,8 +173,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['authData']
+  props: ['authData'],
+  methods: {
+    logout: function logout() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/v1/logout');
+
+              case 3:
+                res = _context.sent;
+                console.log(res.data.status);
+
+                if (res.data.status === 'success') {
+                  localStorage.clear();
+
+                  _this.$router.push('login');
+                }
+
+                _context.next = 10;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 8]]);
+      }))();
+    }
+  }
 });
 
 /***/ }),
@@ -463,10 +518,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.loading = true;
                 _this.formButtonControl = false;
-                _context2.next = 4;
+                _context2.prev = 2;
+                _context2.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/v1/virtual-investment/clients', _this.client);
 
-              case 4:
+              case 5:
                 res = _context2.sent;
 
                 if (res.data.status === 'success') {
@@ -482,13 +538,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.loading = false;
                 _this.formButtonControl = true;
+                _context2.next = 17;
+                break;
 
-              case 8:
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](2);
+                // console.log(erri)
+                _this.loading = false;
+                _this.formButtonControl = true;
+                _this.msg = _context2.t0.message;
+                _this.snackbar = true;
+
+              case 17:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[2, 11]]);
       }))();
     },
     fetchClients: function fetchClients() {
@@ -3388,7 +3455,12 @@ var render = function () {
                 _c(
                   "div",
                   { staticClass: "container-fluid" },
-                  [_vm._t("contents", null, { token: _vm.token })],
+                  [
+                    _vm._t("contents", null, {
+                      token: _vm.token,
+                      authData: _vm.authData,
+                    }),
+                  ],
                   2
                 ),
               ],
@@ -3603,7 +3675,29 @@ var render = function () {
             ]
           ),
           _vm._v(" "),
-          _vm._m(1),
+          _c(
+            "div",
+            {
+              staticClass:
+                "dropdown-menu dropdown-menu-right shadow animated--grow-in",
+              attrs: { "aria-labelledby": "userDropdown" },
+            },
+            [
+              _c(
+                "a",
+                { staticClass: "dropdown-item", on: { click: _vm.logout } },
+                [
+                  _c("i", {
+                    staticClass:
+                      "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400",
+                  }),
+                  _vm._v(
+                    "\n                        Logout\n                    "
+                  ),
+                ]
+              ),
+            ]
+          ),
         ]),
       ]),
     ]
@@ -3621,38 +3715,6 @@ var staticRenderFns = [
         attrs: { id: "sidebarToggleTop" },
       },
       [_c("i", { staticClass: "fa fa-bars" })]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "dropdown-menu dropdown-menu-right shadow animated--grow-in",
-        attrs: { "aria-labelledby": "userDropdown" },
-      },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              href: "#",
-              "data-toggle": "modal",
-              "data-target": "#logoutModal",
-            },
-          },
-          [
-            _c("i", {
-              staticClass: "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400",
-            }),
-            _vm._v("\n                        Logout\n                    "),
-          ]
-        ),
-      ]
     )
   },
 ]

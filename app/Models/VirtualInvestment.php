@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VirtualInvestment extends Model
 {
     use HasFactory;
-    protected $fillable = ['client_id', 'stock_id', 'volume', 'purchase_price'];
+    protected $fillable = ['client_id', 'stock_id', 'volume', 'purchase_price', 'created_by'];
     protected $appends = ['current_price', 'profit_status', 'formated_purchase_price', 'formated_current_price'];
 
 

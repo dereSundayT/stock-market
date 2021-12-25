@@ -15,6 +15,7 @@ class VirtualInvestmentApiController extends Controller
         $this->validate($request, [
             'username' => 'required|unique:clients,username'
         ]);
+        $request['created_by'] = auth()->user()->id;
 
         $newClient =  Client::create($request->all());
         if ($newClient) {
@@ -56,6 +57,8 @@ class VirtualInvestmentApiController extends Controller
             'stock_id' => 'required',
             'volume' => 'required',
         ]);
+
+        $user = auth()->user();
         ////gett only the items needed
         $stock =  Stock::where('id', $request->stock_id)->first();
         $client = Client::where('id', $request->client_id)->first();
@@ -67,6 +70,7 @@ class VirtualInvestmentApiController extends Controller
         $newBal = $currentWalletBalance - $purchasePrice;
         if ($newBal > 0) {
             $request['purchase_price'] = $stock->unit_price;
+            $request['created_by'] = $user->id;
             $newPurchase = VirtualInvestment::create($request->all());
             if ($newPurchase) {
                 //use db Transaction
@@ -88,17 +92,24 @@ class VirtualInvestmentApiController extends Controller
         $stocks = Stock::where('status', 1)->get();
         $user = Client::where('id', $client_id)->first();
 
-        $invested = 0;
-        $total = 0;
-        foreach ($stockPurchase as $item) {
-            $amount_invested = $item->purchase_price * $item->volume;
-            $invested += $amount_invested;
-            //
-            $stock = Stock::where('id', $item->stock_id)->first();
-            $total_current_price = $stock->unit_price * $item->volume;
-            $total  += $total_current_price - $amount_invested;
+        if (count($stockPurchase) > 0) {
+            $invested = 0;
+            $total = 0;
+            foreach ($stockPurchase as $item) {
+                $amount_invested = $item->purchase_price * $item->volume;
+                $invested += $amount_invested;
+                //
+                $stock = Stock::where('id', $item->stock_id)->first();
+                $total_current_price = $stock->unit_price * $item->volume;
+                $total  += $total_current_price - $amount_invested;
+            }
+            $performance = number_format(($total / $invested) * 100, 2);
+        } else {
+            $invested = 0;
+            $total = 0;
+            $performance = 0;
         }
-        $performance = number_format(($total / $invested) * 100, 2);
+
 
 
         //total

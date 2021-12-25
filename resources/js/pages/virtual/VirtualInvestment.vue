@@ -244,18 +244,27 @@ export default {
         async addNewClient() {
             this.loading = true
             this.formButtonControl = false
-            const res = await axios.post('api/v1/virtual-investment/clients',this.client)
-            if(res.data.status==='success'){
+            try {
+                 const res = await axios.post('api/v1/virtual-investment/clients',this.client)
+                 if(res.data.status==='success'){
+                    this.msg = res.data.message
+                    this.dialog = false
+                    this.snackbar = true
+                    this.stock = {}
+                    this.fetchClients()
+                }else{
                 this.msg = res.data.message
-                this.dialog = false
+                }
+                this.loading = false
+                this.formButtonControl = true
+            } catch (error) {
+                // console.log(erri)
+                this.loading = false
+                this.formButtonControl = true
+                this.msg = error.message
                 this.snackbar = true
-                this.stock = {}
-                this.fetchClients()
-            }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
+            }
+           
         },
        async fetchClients() {
            this.loading = true

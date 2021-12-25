@@ -11,7 +11,7 @@ class Stock extends Model
     use HasFactory;
 
 
-    protected $fillable = ['company_name', 'unit_price', 'status'];
+    protected $fillable = ['company_name', 'unit_price', 'status', 'created_by'];
     protected $appends = ['formated_unit_price'];
 
 

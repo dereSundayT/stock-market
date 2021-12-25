@@ -8,7 +8,7 @@
                 <div id="content">
                     <top-bar :authData="authData"/>
                     <div class="container-fluid"> 
-                        <slot name="contents" :token="token"></slot>
+                        <slot name="contents" :token="token" :authData="authData"></slot>
                      </div>
                 </div>
                 <footer class="sticky-footer bg-white">
@@ -45,6 +45,9 @@ export default {
     created () {
         this.token  = localStorage.getItem('token')
         this.authData = JSON.parse(localStorage.getItem('authData'))
+        if(this.token===null){
+            this.$router.push('home')
+        }
     }
 }
 </script>

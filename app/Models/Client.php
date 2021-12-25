@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
-    protected $fillable = ['username', 'virtual_wallet'];
+    protected $fillable = ['username', 'virtual_wallet', 'created_by'];
     protected $appends = ['formated_wallet_bal', 'profit_status'];
 
 

@@ -100,10 +100,9 @@ export default {
             if(res.data.status==='success'){
                 this.loading = false
                 //store the information of this user in localStorage
-
                 const userData = res.data.data
                 const token = res.data.token
-                
+                //
                 localStorage.setItem("authData", JSON.stringify(userData));
                 localStorage.setItem("token",token)
                 //redirec to dahboard page

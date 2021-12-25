@@ -19,7 +19,7 @@
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <a class="dropdown-item" @click="logout">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Logout
                     </a>
@@ -32,7 +32,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-    props : ['authData']
+    props : ['authData'],
+    methods : {
+       async logout(){
+        //    console.log(this.authData)
+        try {
+            const res = await axios.post('/api/v1/logout')
+            console.log(res.data.status)
+            if(res.data.status==='success'){
+                localStorage.clear();
+                this.$router.push('login')
+            }
+            
+        } catch (error) {
+            
+        }
+
+        }
+    }
 }
 </script>

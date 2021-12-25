@@ -5,6 +5,11 @@ const routes = [
         name: "home",
     },
     {
+        path: "/login",
+        component: () => import("../pages/Login.vue"),
+        name: "login",
+    },
+    {
         path: "/stocks",
         component: () => import("../pages/stock/Stock.vue"),
         name: "stock",

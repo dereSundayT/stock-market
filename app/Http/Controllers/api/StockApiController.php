@@ -29,11 +29,13 @@ class StockApiController extends Controller
     public function store(Request $request)
     {
         //
+        $user =  auth()->user();
         $this->validate($request, [
             'company_name' => 'required',
             'unit_price' => 'required'
         ]);
 
+        $request['created_by'] = $user->id;
         $stock =  Stock::create($request->all());
         if ($stock) {
             return successResponse($stock, 201, 'New Stock added Succesfully');

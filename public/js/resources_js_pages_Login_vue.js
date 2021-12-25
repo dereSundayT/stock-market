@@ -146,7 +146,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.loading = false; //store the information of this user in localStorage
 
                   userData = res.data.data;
-                  token = res.data.token;
+                  token = res.data.token; //
+
                   localStorage.setItem("authData", JSON.stringify(userData));
                   localStorage.setItem("token", token); //redirec to dahboard page
 
