@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
                 "name" => "admin ",
                 'email' => 'admin@demo.com',
                 'password' => bcrypt('123456'),
-                'role' => "admin",
+                'role' => 'admin',
             ],
         ]);
     }
