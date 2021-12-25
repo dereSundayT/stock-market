@@ -358,8 +358,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     validateForm: function validateForm(stock) {
-      console.log(stock);
-
       if (stock.company_name === '' || stock.unit_price === '') {
         this.loading = false;
         this.formButtonControl = true;
@@ -504,14 +502,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this3.loading = true;
                 _this3.formButtonControl = false;
+
+                if (_this3.validateForm(_this3.stock)) {
+                  _context3.next = 18;
+                  break;
+                }
+
                 data = {
                   unit_price: _this3.stock.unit_price
-                }; //
-
-                _context3.next = 5;
+                };
+                _context3.prev = 4;
+                _context3.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().put("/api/v1/stocks/".concat(_this3.stock.id), data);
 
-              case 5:
+              case 7:
                 res = _context3.sent;
 
                 if (res.data.status === 'success') {
@@ -530,20 +534,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this3.loading = false;
                 _this3.formButtonControl = true;
+                _context3.next = 18;
+                break;
 
-              case 9:
+              case 13:
+                _context3.prev = 13;
+                _context3.t0 = _context3["catch"](4);
+                _this3.loading = false;
+                _this3.formButtonControl = true;
+                _this3.msg = _context3.t0.message;
+
+              case 18:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[4, 13]]);
       }))();
     },
     //
     editUnitPrice: function editUnitPrice(stock) {
       this.dialog = true;
       this.stock = stock;
-      this.edit = true; // console.log(stock)
+      this.edit = true;
     },
     confirmDel: function confirmDel(stock) {
       var _this4 = this;

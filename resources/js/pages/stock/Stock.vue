@@ -217,7 +217,6 @@ export default {
     },
     methods:{
         validateForm (stock) {
-            console.log(stock)
             if(stock.company_name==='' || stock.unit_price===''){
                 this.loading= false
                 this.formButtonControl= true
@@ -299,32 +298,38 @@ export default {
       async  updateUnitPrice() {
           this.loading = true
           this.formButtonControl = false
-          const data = {
+          if(!this.validateForm(this.stock)){
+            const data = {
               unit_price : this.stock.unit_price
           }
-         //
-         const res = await axios.put(`/api/v1/stocks/${this.stock.id}`,data)
-         if(res.data.status==='success'){
-            this.msg = res.data.message
-            this.dialog = false
-            this.snackbar = true
-            this.stock = {
-                company_name : '',
-                unit_price : ''
+          try {
+              const res = await axios.put(`/api/v1/stocks/${this.stock.id}`,data)
+              if(res.data.status==='success'){
+                this.msg = res.data.message
+                this.dialog = false
+                this.snackbar = true
+                this.stock = {
+                    company_name : '',
+                    unit_price : ''
+                }
+                this.fetchStocks()
+            }else{
+                this.msg = res.data.message
             }
-            this.fetchStocks()
-         }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
+            this.loading = false
+            this.formButtonControl = true  
+          } catch (error) {
+               this.loading = false
+               this.formButtonControl = true 
+               this.msg = error.message
+          }
+          }
         },
      //
         editUnitPrice(stock) {
             this.dialog = true
             this.stock = stock
             this.edit = true
-        // console.log(stock)
         },
     async confirmDel(stock){
         this.stock = stock
