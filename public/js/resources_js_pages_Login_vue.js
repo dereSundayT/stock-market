@@ -162,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   localStorage.setItem("authData", JSON.stringify(userData));
                   localStorage.setItem("token", token); //redirec to dahboard page
 
-                  _this.$router.push('stock');
+                  _this.$router.push('stocks');
                 } else {
                   _this.loading = false;
                 }
@@ -185,6 +185,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee, null, [[2, 9]]);
       }))();
+    }
+  },
+  created: function created() {
+    this.token = localStorage.getItem('token');
+
+    if (this.token !== null) {
+      this.$router.push('stocks');
     }
   }
 });
