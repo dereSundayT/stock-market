@@ -32,9 +32,99 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v(" Login ")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
+          _c("div", { staticClass: "card o-hidden border-0 shadow-lg my-5" }, [
+            _c("div", { staticClass: "card-body p-0" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", {
+                  staticClass: "col-lg-6 d-none d-lg-block bg-login-image",
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-6" }, [
+                  _c("div", { staticClass: "p-5" }, [
+                    _c("div", { staticClass: "py-5" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center" }, [
+                      _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
+                        _vm._v("Welcome Back!"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("form", { staticClass: "user" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          staticClass: "form-control form-control-user",
+                          attrs: {
+                            type: "email",
+                            id: "exampleInputEmail",
+                            "aria-describedby": "emailHelp",
+                            placeholder: "Enter Email Address...",
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          staticClass: "form-control form-control-user",
+                          attrs: {
+                            type: "password",
+                            id: "exampleInputPassword",
+                            placeholder: "Password",
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "custom-control custom-checkbox small",
+                          },
+                          [
+                            _c("input", {
+                              staticClass: "custom-control-input",
+                              attrs: { type: "checkbox", id: "customCheck" },
+                            }),
+                          ]
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-primary btn-user btn-block",
+                          attrs: { href: "index.html" },
+                        },
+                        [
+                          _vm._v(
+                            "\n                                        Login\n                                    "
+                          ),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center" }),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
