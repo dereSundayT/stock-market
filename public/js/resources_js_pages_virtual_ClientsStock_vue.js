@@ -3786,7 +3786,7 @@ var render = function () {
                                 ? _c("span", { staticClass: "red" }, [
                                     _vm._v(
                                       "\n                                - € " +
-                                        _vm._s(item.profit_status) +
+                                        _vm._s(Math.abs(item.profit_status)) +
                                         "\n                                "
                                     ),
                                   ])

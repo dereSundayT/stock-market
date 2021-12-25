@@ -48,14 +48,7 @@
                                 </template>
                                 <!-- action buttons -->
                                 <template v-slot:item.actions="{ item }">
-                                    <v-icon
-                                        small
-                                        class="mr-2"
-                                        title='Fund Wallet'
-                                        @click="fundClientWalletForm(item)"
-                                    >
-                                        mdi-pencil
-                                    </v-icon>
+                                 
                                     <router-link :to="{name:'clientstock',params: { clientID: item.id}}">
                                             <v-icon
                                             small

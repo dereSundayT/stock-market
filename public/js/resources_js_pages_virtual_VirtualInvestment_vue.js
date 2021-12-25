@@ -444,13 +444,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3861,24 +3854,6 @@ var render = function () {
                           fn: function (ref) {
                             var item = ref.item
                             return [
-                              _c(
-                                "v-icon",
-                                {
-                                  staticClass: "mr-2",
-                                  attrs: { small: "", title: "Fund Wallet" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.fundClientWalletForm(item)
-                                    },
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    mdi-pencil\n                                "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
                               _c(
                                 "router-link",
                                 {

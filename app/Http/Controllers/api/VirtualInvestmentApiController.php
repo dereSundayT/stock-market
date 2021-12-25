@@ -115,9 +115,9 @@ class VirtualInvestmentApiController extends Controller
         //total
         $summary = [
             'invested' => "€ $invested",
-            'total' =>  $total > 0 ? "+ € $total" : " € $total",
+            'total' =>  $total > 0 ? "+ € $total" : ($total == 0 ? "€ $total" : "-€" . abs($total)),
             'total_status' => $total > 0 ? true : ($total == 0 ? '' : false),
-            'performance' => $performance > 0 ? "+ $performance %" : "$performance",
+            'performance' => $performance > 0 ? "+ $performance %" : "$performance %",
             'performance_status' => $performance > 0 ? true : false
         ];
         // return $summary;
