@@ -113,11 +113,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      loading: false,
+      loading: true,
       form: {
         email: "",
         password: ""
@@ -1058,92 +1063,93 @@ var render = function () {
                   _vm._v(" "),
                   _vm._m(0),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "user" },
-                    [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.email,
-                              expression: "form.email",
-                            },
+                  _c("div", { staticClass: "user" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.email,
+                            expression: "form.email",
+                          },
+                        ],
+                        staticClass: "form-control form-control-user",
+                        attrs: {
+                          type: "email",
+                          id: "exampleInputEmail",
+                          "aria-describedby": "emailHelp",
+                          placeholder: "Enter Email Address...",
+                        },
+                        domProps: { value: _vm.form.email },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "email", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.password,
+                            expression: "form.password",
+                          },
+                        ],
+                        staticClass: "form-control form-control-user",
+                        attrs: {
+                          type: "password",
+                          id: "exampleInputPassword",
+                          placeholder: "Password",
+                        },
+                        domProps: { value: _vm.form.password },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "password", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm.loading
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-user btn-block",
+                            on: { click: _vm.login },
+                          },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: { indeterminate: "", size: "30" },
+                            }),
                           ],
-                          staticClass: "form-control form-control-user",
-                          attrs: {
-                            type: "email",
-                            id: "exampleInputEmail",
-                            "aria-describedby": "emailHelp",
-                            placeholder: "Enter Email Address...",
+                          1
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-user btn-block",
+                            on: { click: _vm.login },
                           },
-                          domProps: { value: _vm.form.email },
-                          on: {
-                            input: function ($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "email", $event.target.value)
-                            },
-                          },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.password,
-                              expression: "form.password",
-                            },
-                          ],
-                          staticClass: "form-control form-control-user",
-                          attrs: {
-                            type: "password",
-                            id: "exampleInputPassword",
-                            placeholder: "Password",
-                          },
-                          domProps: { value: _vm.form.password },
-                          on: {
-                            input: function ($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "password",
-                                $event.target.value
-                              )
-                            },
-                          },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _vm.loading
-                        ? _c("v-progress-circular", {
-                            attrs: { indeterminate: "", size: "64" },
-                          })
-                        : _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary btn-user btn-block",
-                              on: { click: _vm.login },
-                            },
-                            [
-                              _vm._v(
-                                "\n                                        Login\n                                    "
-                              ),
-                            ]
-                          ),
-                    ],
-                    1
-                  ),
+                          [
+                            _vm._v(
+                              "\n                                         Login\n                                     "
+                            ),
+                          ]
+                        ),
+                  ]),
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
@@ -1165,7 +1171,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "text-center" }, [
       _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
         _vm._v(
-          "\n                                        Welcome Back!\n                                    "
+          "\n                                         Welcome Back!\n                                     "
         ),
       ]),
     ])

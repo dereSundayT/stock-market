@@ -50,12 +50,17 @@
                                                 <!-- <!-- <label class="custom-control-label" for="customCheck">Remember  Me</label> -->
                                             </div>
                                         </div>
-
-                                        <v-progress-circular
+   <button
                                             v-if="loading"
+                                            class="btn btn-primary btn-user btn-block"
+                                            @click="login"
+                                        >
+                                        <v-progress-circular
+                                            
                                             indeterminate
-                                            size="64">
+                                            size="30">
                                         </v-progress-circular>
+   </button>
                                         <button
                                             v-else
                                             class="btn btn-primary btn-user btn-block"
@@ -85,7 +90,7 @@ import axios from "axios";
 export default {
     data() {
         return {
-            loading: false,
+            loading: true,
             form: {
                 email: "",
                 password: "",
