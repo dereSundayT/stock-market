@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\AuthApiController;
 use App\Http\Controllers\api\StockApiController;
 use App\Http\Controllers\api\VirtualInvestmentApiController;
 use Illuminate\Http\Request;
@@ -16,11 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::group(['prefix' => 'v1'], function () {
+    //
+    Route::post('login', [AuthApiController::class, 'login']);
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('logout', [AuthApiController::class, 'logout']);
+    });
     Route::apiResource('stocks', StockApiController::class);
     Route::get('virtual-investment/clients/{client_id}', [VirtualInvestmentApiController::class, 'allStockPurchaseByClient']);
     //add new client and listing of all the clients

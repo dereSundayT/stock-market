@@ -17,6 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('username');
             $table->double('virtual_wallet')->default(1000);
+            $table->foreignId('created_by');
             $table->timestamps();
         });
     }

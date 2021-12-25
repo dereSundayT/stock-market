@@ -6,9 +6,9 @@
             <side-bar/>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <top-bar/>
+                    <top-bar :authData="authData"/>
                     <div class="container-fluid"> 
-                        <slot name="contents"></slot>
+                        <slot name="contents" :token="token"></slot>
                      </div>
                 </div>
                 <footer class="sticky-footer bg-white">
@@ -36,5 +36,15 @@ import SnackBar from '../components/SnackBar.vue'
 export default {
     components:{SideBar,TopBar,Loading,SnackBar},
     props: ['loading','snackbar','msg'],
+    data () {
+        return{
+            token : null ,
+            authData : null
+        }
+    },
+    created () {
+        this.token  = localStorage.getItem('token')
+        this.authData = JSON.parse(localStorage.getItem('authData'))
+    }
 }
 </script>

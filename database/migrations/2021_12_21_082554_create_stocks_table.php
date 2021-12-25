@@ -18,8 +18,7 @@ class CreateStocksTable extends Migration
             $table->string('company_name');
             $table->decimal('unit_price', 5, 2);
             $table->boolean('status')->default(1); //0 inactive 1: active 2 : deleted
-            // $table->foreignId('created_by');
-
+            $table->foreignId('created_by');
             $table->timestamps();
         });
     }

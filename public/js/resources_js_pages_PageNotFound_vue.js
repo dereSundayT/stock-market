@@ -32,7 +32,47 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "d-flex flex-column", attrs: { id: "content-wrapper" } },
+      [
+        _c("div", { staticClass: "p-5" }),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "content" } }, [
+          _c("div", { staticClass: "container-fluid" }, [
+            _c(
+              "div",
+              { staticClass: "text-center" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "error mx-auto",
+                    attrs: { "data-text": "404" },
+                  },
+                  [_vm._v("404")]
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "lead text-gray-800 mb-5" }, [
+                  _vm._v("Page Not Found"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-gray-500 mb-0" }, [
+                  _vm._v("It looks like you found a glitch in the matrix..."),
+                ]),
+                _vm._v(" "),
+                _c("router-link", { attrs: { to: { name: "home" } } }, [
+                  _vm._v("← Back to Home Page"),
+                ]),
+              ],
+              1
+            ),
+          ]),
+        ]),
+      ]
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

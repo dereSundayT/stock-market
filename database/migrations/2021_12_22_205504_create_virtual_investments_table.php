@@ -19,6 +19,7 @@ class CreateVirtualInvestmentsTable extends Migration
             $table->foreignId('stock_id')->constrained()->onDelete('cascade');
             $table->string('volume');
             $table->decimal('purchase_price', 5, 2);
+            $table->foreignId('created_by');
             // $table->decimal('current_price', 5, 2);
 
             $table->timestamps();
