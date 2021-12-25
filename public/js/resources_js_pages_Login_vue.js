@@ -118,11 +118,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      loading: true,
+      loading: false,
+      error: false,
+      msg: '',
       form: {
         email: "",
         password: ""
@@ -134,17 +139,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res, userData, token;
+        var res, userData, token, errMsg;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this.loading = true;
-                _context.prev = 1;
-                _context.next = 4;
+                _this.error = false;
+                _context.prev = 2;
+                _context.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/v1/login", _this.form);
 
-              case 4:
+              case 5:
                 res = _context.sent;
 
                 if (res.data.status === 'success') {
@@ -156,23 +162,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   localStorage.setItem("authData", JSON.stringify(userData));
                   localStorage.setItem("token", token); //redirec to dahboard page
 
-                  _this.$router.push('dashboard');
+                  _this.$router.push('stock');
+                } else {
+                  _this.loading = false;
                 }
 
-                _context.next = 11;
+                _context.next = 15;
                 break;
 
-              case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](1);
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](2);
                 _this.loading = false;
+                errMsg = _context.t0.response === undefined ? 'No internet, please ensure you are connected to the internet' : _context.t0.response.data.errors === undefined ? _context.t0.response.data.message : _context.t0.response.data.errors;
+                _this.msg = errMsg;
+                _this.error = true;
 
-              case 11:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 8]]);
+        }, _callee, null, [[2, 9]]);
       }))();
     }
   }
@@ -1058,10 +1069,24 @@ var render = function () {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "py-5" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "py-5" }),
+                _vm._v(" "),
                 _c("div", { staticClass: "p-5" }, [
-                  _c("div", { staticClass: "py-5" }),
-                  _vm._v(" "),
-                  _vm._m(0),
+                  _c("div", { staticClass: "text-center" }, [
+                    _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
+                      _vm._v(
+                        "\n                                        Welcome Back!\n                                    "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _vm.error
+                      ? _c("div", { staticClass: "alert alert-danger" }, [
+                          _vm._v(" " + _vm._s(_vm.msg) + " "),
+                        ])
+                      : _vm._e(),
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "user" }, [
                     _c("div", { staticClass: "form-group" }, [
@@ -1080,6 +1105,7 @@ var render = function () {
                           id: "exampleInputEmail",
                           "aria-describedby": "emailHelp",
                           placeholder: "Enter Email Address...",
+                          required: "",
                         },
                         domProps: { value: _vm.form.email },
                         on: {
@@ -1108,6 +1134,7 @@ var render = function () {
                           type: "password",
                           id: "exampleInputPassword",
                           placeholder: "Password",
+                          required: "",
                         },
                         domProps: { value: _vm.form.password },
                         on: {
@@ -1121,15 +1148,12 @@ var render = function () {
                       }),
                     ]),
                     _vm._v(" "),
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
                     _vm.loading
                       ? _c(
                           "button",
-                          {
-                            staticClass: "btn btn-primary btn-user btn-block",
-                            on: { click: _vm.login },
-                          },
+                          { staticClass: "btn btn-primary btn-user btn-block" },
                           [
                             _c("v-progress-circular", {
                               attrs: { indeterminate: "", size: "30" },
@@ -1145,7 +1169,7 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                         Login\n                                     "
+                              "\n                                        Login\n                                    "
                             ),
                           ]
                         ),
@@ -1164,18 +1188,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
-        _vm._v(
-          "\n                                         Welcome Back!\n                                     "
-        ),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

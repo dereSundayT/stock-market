@@ -134,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Loading_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Loading.vue */ "./resources/js/components/Loading.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -173,9 +174,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['authData'],
+  components: {
+    Loading: _components_Loading_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      loading: false
+    };
+  },
   methods: {
     logout: function logout() {
       var _this = this;
@@ -187,14 +202,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _context.next = 3;
+                _this.loading = true;
+                _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/v1/logout');
 
-              case 3:
+              case 4:
                 res = _context.sent;
-                console.log(res.data.status);
 
                 if (res.data.status === 'success') {
+                  _this.loading = false;
                   localStorage.clear();
 
                   _this.$router.push('login');
@@ -3537,23 +3553,6 @@ var render = function () {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "nav-item active" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "nav-link", attrs: { to: { name: "dashboard" } } },
-            [
-              _c("i", { staticClass: "fas fa-fw fa-tachometer-alt" }),
-              _vm._v(" "),
-              _c("span", [_vm._v("Dashboard")]),
-            ]
-          ),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
         { staticClass: "nav-item" },
         [
           _c(
@@ -3700,7 +3699,19 @@ var render = function () {
           ),
         ]),
       ]),
-    ]
+      _vm._v(" "),
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.loading } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" },
+          }),
+        ],
+        1
+      ),
+    ],
+    1
   )
 }
 var staticRenderFns = [
@@ -4509,6 +4520,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TopBar_vue_vue_type_template_id_278d308d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TopBar.vue?vue&type=template&id=278d308d& */ "./resources/js/pages/layouts/TopBar.vue?vue&type=template&id=278d308d&");
 /* harmony import */ var _TopBar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TopBar.vue?vue&type=script&lang=js& */ "./resources/js/pages/layouts/TopBar.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
 
 
 
@@ -4526,6 +4541,13 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
   null
   
 )
+
+/* vuetify-loader */
+;
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_4__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_5__["default"]})
+
 
 /* hot reload */
 if (false) { var api; }

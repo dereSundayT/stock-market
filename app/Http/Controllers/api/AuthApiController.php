@@ -21,11 +21,9 @@ class AuthApiController extends Controller
         if (Auth::attempt($request->all())) {
             $user = User::where('email', $request->email)->first();
             $token =  $user->createToken('admin-login');
-
-
             return successResponse($user, 200, '', ['token' => $token->plainTextToken]);
-
-            // $user->tokens()->delete(); 
+        } else {
+            return errorResponse(401, 'Invalid crendentials');
         }
     }
 

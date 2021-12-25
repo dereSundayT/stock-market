@@ -27,21 +27,33 @@
             </li>
 
         </ul>
-
+        <v-overlay :value="loading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
 </nav>
 </template>
 
 <script>
 import axios from 'axios'
+import Loading from '../../components/Loading.vue'
 export default {
     props : ['authData'],
+    components: {Loading},
+    data() {
+        return {
+            loading: false,
+        }
+    },
     methods : {
        async logout(){
-        //    console.log(this.authData)
         try {
+            this.loading = true
             const res = await axios.post('/api/v1/logout')
-            console.log(res.data.status)
             if(res.data.status==='success'){
+                this.loading = false
                 localStorage.clear();
                 this.$router.push('login')
             }
