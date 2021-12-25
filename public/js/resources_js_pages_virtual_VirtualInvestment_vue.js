@@ -271,6 +271,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -281,6 +330,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       loading: false,
       dialog: false,
+      fundingDialogue: false,
       delDialog: false,
       search: '',
       formButtonControl: true,
@@ -310,7 +360,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       edit: false,
       client: {
         username: ''
-      }
+      },
+      fundingDetails: ''
     };
   },
   created: function created() {
@@ -324,22 +375,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         username: ''
       };
     },
-    addNewClient: function addNewClient() {
-      var _this = this;
-
+    fundClientWalletForm: function fundClientWalletForm(client) {
+      this.fundingDialogue = true;
+      this.fundingDetails = client;
+    },
+    fundClientWallet: function fundClientWallet() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    addNewClient: function addNewClient() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
                 _this.loading = true;
                 _this.formButtonControl = false;
-                _context.next = 4;
+                _context2.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/v1/virtual-investment/clients', _this.client);
 
               case 4:
-                res = _context.sent;
+                res = _context2.sent;
 
                 if (res.data.status === 'success') {
                   _this.msg = res.data.message;
@@ -347,7 +415,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.snackbar = true;
                   _this.stock = {};
 
-                  _this.fetchStocks();
+                  _this.fetchClients();
                 } else {
                   _this.msg = res.data.message;
                 }
@@ -357,46 +425,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 8:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
-    },
-    //
-    addUpdateStock: function addUpdateStock() {
-      if (this.edit) {
-        //edit
-        this.updateUnitPrice();
-      } else {
-        //create new stock
-        this.addNewClient();
-      }
     },
     fetchClients: function fetchClients() {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var res, initialClient;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 _this2.loading = true;
-                _context2.prev = 1;
-                _context2.next = 4;
+                _context3.prev = 1;
+                _context3.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get('api/v1/virtual-investment/clients');
 
               case 4:
-                res = _context2.sent;
+                res = _context3.sent;
 
                 if (res.data.status === 'success') {
-                  _this2.msg = res.data.message;
-                  initialClient = res.data.data; //sorting by sortPrice
+                  // this.msg = res.data.message
+                  initialClient = res.data.data; //sorting
 
-                  console.log(initialClient); // initialStock.sort((a,b) => a.unit_price - b.unit_price)
-                  // initialStock.reverse()
-
+                  initialClient.sort(function (a, b) {
+                    return a.profit_status - b.profit_status;
+                  });
+                  initialClient.reverse();
                   _this2.clients = initialClient;
                 } else {
                   _this2.msg = res.data.message;
@@ -404,150 +463,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this2.loading = false;
                 _this2.formButtonControl = true;
-                _context2.next = 13;
+                _context3.next = 13;
                 break;
 
               case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](1);
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](1);
                 _this2.loading = false;
 
               case 13:
               case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, null, [[1, 10]]);
-      }))();
-    },
-    //
-    updateUnitPrice: function updateUnitPrice() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var data, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _this3.loading = true;
-                _this3.formButtonControl = false;
-                data = {
-                  unit_price: _this3.stock.unit_price
-                }; //
-
-                _context3.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().put("/api/v1/stocks/".concat(_this3.stock.id), data);
-
-              case 5:
-                res = _context3.sent;
-
-                if (res.data.status === 'success') {
-                  _this3.msg = res.data.message;
-                  _this3.dialog = false;
-                  _this3.snackbar = true;
-                  _this3.stock = {
-                    company_name: '',
-                    unit_price: ''
-                  };
-
-                  _this3.fetchStocks();
-                } else {
-                  _this3.msg = res.data.message;
-                }
-
-                _this3.loading = false;
-                _this3.formButtonControl = true;
-
-              case 9:
-              case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[1, 10]]);
       }))();
-    },
-    //
-    editUnitPrice: function editUnitPrice(stock) {
-      this.dialog = true;
-      this.stock = stock;
-      this.edit = true; // console.log(stock)
-    },
-    confirmDel: function confirmDel(stock) {
-      var _this4 = this;
+    } //
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this4.stock = stock;
-                _this4.delDialog = true;
-
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    deleteStock: function deleteStock(data) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                if (!(data === 'no')) {
-                  _context5.next = 5;
-                  break;
-                }
-
-                _this5.delDialog = false;
-                _this5.stock = {
-                  company_name: '',
-                  unit_price: ''
-                };
-                _context5.next = 13;
-                break;
-
-              case 5:
-                _this5.loading = true;
-                _this5.formButtonControl = false;
-                _context5.next = 9;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("api/v1/stocks/".concat(_this5.stock.id));
-
-              case 9:
-                res = _context5.sent;
-
-                if (res.data.status === 'success') {
-                  _this5.msg = res.data.message;
-                  _this5.delDialog = false;
-                  _this5.snackbar = true;
-                  _this5.stock = {
-                    company_name: '',
-                    unit_price: ''
-                  };
-
-                  _this5.fetchStocks();
-                } else {
-                  _this5.msg = res.data.message;
-                }
-
-                _this5.loading = false;
-                _this5.formButtonControl = true;
-
-              case 13:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    }
   },
   computed: {
     itemsWithIndex: function itemsWithIndex() {
@@ -3508,10 +3440,6 @@ var render = function () {
         ],
         1
       ),
-      _vm._v(" "),
-      _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
-      _vm._v(" "),
-      _vm._m(1),
     ]
   )
 }
@@ -3535,17 +3463,6 @@ var staticRenderFns = [
         _c("div", { staticClass: "sidebar-brand-text mx-3" }, [_vm._v(" \\j")]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center d-none d-md-inline" }, [
-      _c("button", {
-        staticClass: "rounded-circle border-0",
-        attrs: { id: "sidebarToggle" },
-      }),
-    ])
   },
 ]
 render._withStripped = true
@@ -3703,15 +3620,6 @@ var render = function () {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-danger btn-sm",
-                  on: { click: _vm.addNewClientForm },
-                },
-                [_vm._v("Trash()")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
                   staticClass: "btn btn-outline-primary btn-sm",
                   on: { click: _vm.addNewClientForm },
                 },
@@ -3762,6 +3670,43 @@ var render = function () {
                       },
                       scopedSlots: _vm._u([
                         {
+                          key: "item.profit_status",
+                          fn: function (ref) {
+                            var item = ref.item
+                            return [
+                              item.profit_status > 0
+                                ? _c("span", { staticClass: "green" }, [
+                                    _vm._v(
+                                      "\n                                + € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.profit_status < 0
+                                ? _c("span", { staticClass: "red" }, [
+                                    _vm._v(
+                                      "\n                                - € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.profit_status === 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                    € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                        {
                           key: "item.actions",
                           fn: function (ref) {
                             var item = ref.item
@@ -3773,7 +3718,7 @@ var render = function () {
                                   attrs: { small: "", title: "Fund Wallet" },
                                   on: {
                                     click: function ($event) {
-                                      return _vm.editUnitPrice(item)
+                                      return _vm.fundClientWalletForm(item)
                                     },
                                   },
                                 },
@@ -3845,13 +3790,9 @@ var render = function () {
                           _c(
                             "v-card-title",
                             [
-                              _vm.edit
-                                ? _c("span", { staticClass: "text-h5" }, [
-                                    _vm._v("Update Stock Unit Price"),
-                                  ])
-                                : _c("span", { staticClass: "text-h5" }, [
-                                    _vm._v("Add new Stock "),
-                                  ]),
+                              _c("span", { staticClass: "text-h5" }, [
+                                _vm._v("Add new Client "),
+                              ]),
                               _vm._v(" "),
                               _c("v-spacer"),
                             ],
@@ -3873,7 +3814,7 @@ var render = function () {
                                         [
                                           _c("v-text-field", {
                                             attrs: {
-                                              label: "Company name*",
+                                              label: "username*",
                                               type: "text",
                                               required: "",
                                             },
@@ -3893,12 +3834,6 @@ var render = function () {
                                         1
                                       ),
                                     ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-row",
-                                    [_c("v-col", { attrs: { cols: "12" } })],
                                     1
                                   ),
                                 ],
@@ -3934,37 +3869,169 @@ var render = function () {
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm.edit
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "blue darken-1",
-                                            text: "",
-                                          },
-                                          on: { click: _vm.addUpdateStock },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Update\n                                "
-                                          ),
-                                        ]
-                                      )
-                                    : _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "blue darken-1",
-                                            text: "",
-                                          },
-                                          on: { click: _vm.addUpdateStock },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Add\n                                "
-                                          ),
-                                        ]
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: "",
+                                      },
+                                      on: { click: _vm.addNewClient },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Add\n                                "
                                       ),
+                                    ]
+                                  ),
+                                ],
+                                1
+                              )
+                            : _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c("v-progress-circular", {
+                                    attrs: { indeterminate: "", size: "30" },
+                                  }),
+                                ],
+                                1
+                              ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { attrs: { justify: "center" } },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: { persistent: "", "max-width": "600px" },
+                      model: {
+                        value: _vm.fundingDialogue,
+                        callback: function ($$v) {
+                          _vm.fundingDialogue = $$v
+                        },
+                        expression: "fundingDialogue",
+                      },
+                    },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-card-title",
+                            [
+                              _c("span", { staticClass: "text-h5" }, [
+                                _vm._v(
+                                  "Fund " +
+                                    _vm._s(_vm.fundingDetails.username) +
+                                    " Wallet"
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("v-spacer"),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            [
+                              _c(
+                                "v-container",
+                                [
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label: "amount*",
+                                              type: "text",
+                                              required: "",
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.fundingDetails
+                                                  .wallet_balance,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.fundingDetails,
+                                                  "wallet_balance",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "fundingDetails.wallet_balance",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm.formButtonControl
+                            ? _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: "",
+                                      },
+                                      on: {
+                                        click: function ($event) {
+                                          _vm.fundingDialogue = false
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Close\n                                "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: "",
+                                      },
+                                      on: { click: _vm.fundClientWallet },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Fund wallet\n                                "
+                                      ),
+                                    ]
+                                  ),
                                 ],
                                 1
                               )

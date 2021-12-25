@@ -11,6 +11,14 @@
         rel="stylesheet">
     <link href="{{asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
     {{-- <link href="{{asset('assets/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet"> --}}
+    <style>
+        .green{
+            color:green
+        }
+         .red{
+            color:red
+        }
+    </style>
 </head>
 <body>
     <div id="app">

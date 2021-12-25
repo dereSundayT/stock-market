@@ -1,12 +1,15 @@
 <template>
     <dashboard-wrapper :loading="loading" :snackbar="snackbar" :msg="msg"> 
         <template slot="contents"> 
-            <h1 class="h3 mb-2 text-gray-800">Clients Stock Lisiting  <small>username</small></h1>
+            <h1 class="h3 mb-2 text-gray-800">Clients Stock Lisiting  <small style="font-size:13px">{{this.userDetails.username}}</small></h1>
             <p class="mb-4"></p>
             <div class="card shadow mb-4">
                 <!-- page heading -->
                 <div class="card-header py-3 d-flex justify-content-between">
-                    <button class="btn btn-primary btn-sm" @click="fundClientWallet">Fund Wallet</button>
+                    <div> 
+                        <!-- <span>back</span> -->
+                        <button class="btn btn-primary btn-sm" @click="fundClientWallet">Fund Wallet</button>
+                    </div>
                     <button class="btn btn-outline-primary btn-sm"  @click="dialog=true">Purchase Stock</button>
                 </div>
                 <!-- end of page heading -->
@@ -14,25 +17,59 @@
                     <!-- datatable -->
                     <template>
                         <v-card>
-                            <v-card-title>
-                                <v-spacer></v-spacer>
-                                <v-text-field
-                                    v-model="search"
-                                    append-icon="mdi-magnify"
-                                    label="Search"
-                                    single-line
-                                    hide-details
-                                />
-                            </v-card-title>
                             <!-- datatable -->
                             <v-data-table       
                                 :headers="headers"
                                 :items="itemsWithIndex"
-                                :search="search"
-                                :loading="loading"
-                                loading-text="Loading... Please wait"
-                            > 
-                            </v-data-table>
+                            >
+                            <template v-slot:item.profit_status="{ item }">
+                                    <span v-if="item.profit_status > 0" class="green">
+                                    + € {{ item.profit_status }}
+                                    </span>
+                                    <span v-if="item.profit_status < 0" class="red">
+                                    - € {{ item.profit_status }}
+                                    </span>
+                                    <span v-if="item.profit_status === 0">
+                                        € {{ item.profit_status }}
+                                    </span>
+                                
+                                    
+                                </template>
+
+                            </v-data-table> 
+                            <!-- basic formation -->
+                            <v-row>
+                                 <!-- -->
+                                <v-col cols="4"></v-col>
+                                <v-col cols="4"></v-col>
+                                <v-col cols="4">
+                                    <v-row>
+                                        <v-col cols="3"></v-col>
+                                        <v-col cols="5">Total</v-col> 
+                                        <v-col cols="4">
+                                            <span v-bind:class="[summary.total_status ? 'green' : 'red']"> {{summary.total}}</span>
+                                        </v-col>
+                                    </v-row>
+                                      <v-row>
+                                        <v-col cols="3"></v-col>
+                                        <v-col cols="5">Invested</v-col>
+                                        <v-col cols="4">{{summary.invested}}</v-col>
+                                    </v-row>
+                                      <v-row>
+                                        <v-col cols="3"></v-col>
+                                        <v-col cols="5">Performance</v-col>
+
+                                        <v-col cols="4">
+                                            <span v-bind:class="[summary.performance_status ? 'green' : 'red']"> {{summary.performance}}</span>
+                                        </v-col>
+                                    </v-row>
+                                      <v-row>
+                                        <v-col cols="3"></v-col>
+                                        <v-col cols="5">Cash Balance</v-col>
+                                        <v-col cols="4">{{userDetails.formated_wallet_bal}}</v-col>
+                                    </v-row>
+                                </v-col>
+                            </v-row>
                         </v-card>
                     </template>
                     <!-- datatablr -->
@@ -52,17 +89,22 @@
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12">
-                                                <select class="form-group">
-                                                    <option v-for="stock in stocks" :key="stock.id" > {{stock.company_name}} </option>
+                                                <select class="form-control" v-model="selected">
+                                                    <option value=""> select a stock</option>
+                                                    <option v-for="stock in stocks" :key="stock.id" v-bind:value="stock.id" > 
+                                                        {{stock.company_name}}  | €{{stock.unit_price}}
+                                                    </option>
                                                 </select>
-                                            </v-col>
+
+        
+                                                </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
                                                 <v-text-field
                                                 label="Volume*"
                                                 type="number"
-                                                v-model="stock.volume"
+                                                v-model="volume"
                                                 required
                                                 ></v-text-field>
                                             </v-col>
@@ -112,7 +154,6 @@ export default {
         return {
             loading:false,
             dialog: false,
-            search: '',
             formButtonControl: true,
             //
             snackbar: false,
@@ -129,20 +170,19 @@ export default {
             { text: 'Volume', value: 'volume' },
             { text: 'Purchase Price', value: 'formated_purchase_price' },
             { text: 'Current Price', value: 'formated_current_price' },
-            { text: 'Gain/Loss', value: 'profit_status.amount' },
+            { text: 'Gain/Loss', value: 'profit_status' },
             ],
             clientID:'',
             stocks: [],
             mystocks: [],
-            stock : {
-                "client_id": this.clientID,
-                "stock_id": '',
-                "volume":1
-                }
+            userDetails : '', 
+            summary : '', 
+            selected : '',  
+            volume : 1
+        
       }
     },
     created () {
-        console.log()
         let cid = this.$route.params.clientID
         this.clientID = cid
         this.fetchClientStocks(cid)
@@ -161,6 +201,8 @@ export default {
                     // initialStock.reverse()
                     this.mystocks =  initialStock
                     this.stocks = res.data.stocks
+                    this.userDetails = res.data.user
+                    this.summary = res.data.summary
                 }else{
                     this.msg = res.data.message
                 }
@@ -175,7 +217,34 @@ export default {
 
         },
         async purchaseStock(){
-            console.log(this.stock)
+            this.loading = true
+            this.formButtonControl = false
+            let data = {
+                volume:this.volume,
+                stock_id:this.selected,
+                client_id:this.clientID
+                }
+            try {
+                const res = await axios.post('/api/v1/virtual-investment',data)
+                if(res.data.status==='success'){
+                this.msg = res.data.message
+                this.snackbar = true
+                this.dialog = false
+                this.selected = ''
+                this.volume = 1
+                this.formButtonControl = true
+                this.fetchClientStocks(this.clientID)
+
+            }else{
+                this.msg = res.data.message
+            }
+            this.loading = false
+            this.formButtonControl = true
+                
+            } catch (error) {
+                this.loading = false
+            }
+           
         }
     },
     //

@@ -6,7 +6,7 @@
             <div class="card shadow mb-4">
                 <!-- page heading -->
                 <div class="card-header py-3 d-flex justify-content-between">
-                    <button class="btn btn-danger btn-sm" @click="addNewClientForm">Trash()</button>
+                    <!-- <button class="btn btn-danger btn-sm" @click="addNewClientForm">Trash()</button> -->
                     <button class="btn btn-outline-primary btn-sm" @click="addNewClientForm">New Client</button>
                 </div>
                 <!-- end of page heading -->
@@ -32,25 +32,39 @@
                                 :loading="loading"
                                 loading-text="Loading... Please wait"
                             > 
+                                <!-- profit_staus -->
+                                <template v-slot:item.profit_status="{ item }">
+                                    <span v-if="item.profit_status > 0" class="green">
+                                    + € {{ item.profit_status }}
+                                    </span>
+                                    <span v-if="item.profit_status < 0" class="red">
+                                    - € {{ item.profit_status }}
+                                    </span>
+                                    <span v-if="item.profit_status === 0">
+                                        € {{ item.profit_status }}
+                                    </span>
+                                
+                                    
+                                </template>
                                 <!-- action buttons -->
                                 <template v-slot:item.actions="{ item }">
                                     <v-icon
                                         small
                                         class="mr-2"
                                         title='Fund Wallet'
-                                        @click="editUnitPrice(item)"
+                                        @click="fundClientWalletForm(item)"
                                     >
                                         mdi-pencil
                                     </v-icon>
                                     <router-link :to="{name:'clientstock',params: { clientID: item.id}}">
-                                         <v-icon
+                                            <v-icon
                                             small
                                             title="View Stocks"
                                         >
                                             mdi-eye
                                         </v-icon>
-                                     </router-link>
-                                   
+                                        </router-link>
+                                    
                                 </template>
                             </v-data-table>
                         </v-card>
@@ -65,32 +79,21 @@
                         >
                             <v-card>
                                 <v-card-title>
-                                    <span class="text-h5" v-if="edit">Update Stock Unit Price</span>
-                                    <span class="text-h5" v-else>Add new Stock </span>
+                                    <span class="text-h5">Add new Client </span>
                                     <v-spacer></v-spacer>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-container>
-                                           <v-row>
+                                        <v-row>
                                             <v-col cols="12">
                                                 <v-text-field
-                                                label="Company name*"
+                                                label="username*"
                                                 type="text"
                                                 v-model="client.username"
                                                 required
                                                 ></v-text-field>
                                             </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col cols="12">
-                                                <!-- <v-text-field
-                                                label="Stock unit Price*"
-                                                type="number"
-                                                v-model="client.wallet_balance"
-                                                required
-                                                ></v-text-field> -->
-                                            </v-col>
-                                        </v-row>
+                                        </v-row>    
                                     </v-container>
                                 </v-card-text>
                                 <v-card-actions v-if="formButtonControl">
@@ -102,21 +105,67 @@
                                     >
                                         Close
                                     </v-btn>
+                
                                     <v-btn
-                                        v-if="edit"
                                         color="blue darken-1"
                                         text
-                                        @click="addUpdateStock"
-                                    >
-                                        Update
-                                    </v-btn>
-                                    <v-btn
-                                        v-else
-                                        color="blue darken-1"
-                                        text
-                                        @click="addUpdateStock"
+                                        @click="addNewClient"
                                     >
                                         Add
+                                    </v-btn>
+                                </v-card-actions>
+                                <v-card-actions v-else>
+                                    <v-spacer></v-spacer>
+                                     <v-progress-circular
+                                        indeterminate
+                                        size="30">
+                                     </v-progress-circular>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-row>
+                     <!-- stock form modal for both Adding & Editting -->
+                   <v-row justify="center">
+                        <v-dialog
+                            v-model="fundingDialogue"
+                            persistent
+                            max-width="600px"
+                        >
+                            <v-card>
+                                <v-card-title>
+                                    <span class="text-h5">Fund {{fundingDetails.username}} Wallet</span>
+                                    <v-spacer></v-spacer>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-container>
+                                           <v-row>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                label="amount*"
+                                                type="text"
+                                                v-model="fundingDetails.wallet_balance"
+                                                required
+                                                ></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    
+                                    </v-container>
+                                </v-card-text>
+                                <v-card-actions v-if="formButtonControl">
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="fundingDialogue=false"
+                                    >
+                                        Close
+                                    </v-btn>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="fundClientWallet"
+                                    >
+                                        Fund wallet
                                     </v-btn>
                                 </v-card-actions>
                                 <v-card-actions v-else>
@@ -146,6 +195,7 @@ export default {
         return {
             loading:false,
             dialog: false,
+            fundingDialogue: false,
             delDialog: false,
             search: '',
             formButtonControl: true,
@@ -169,7 +219,8 @@ export default {
             edit: false,
             client : {
                 username : '',
-            }
+            },
+            fundingDetails : ''
       }
     },
     created () {
@@ -183,6 +234,13 @@ export default {
                 username : '',
             }
         },
+        fundClientWalletForm(client) {
+            this.fundingDialogue =  true
+            this.fundingDetails = client
+        },
+        async fundClientWallet(){
+
+        },
         async addNewClient() {
             this.loading = true
             this.formButtonControl = false
@@ -192,34 +250,23 @@ export default {
                 this.dialog = false
                 this.snackbar = true
                 this.stock = {}
-                this.fetchStocks()
+                this.fetchClients()
             }else{
              this.msg = res.data.message
          }
         this.loading = false
         this.formButtonControl = true
         },
-        //
-        addUpdateStock () {
-            if(this.edit){
-                //edit
-                this.updateUnitPrice()
-            }else{
-                //create new stock
-                this.addNewClient()
-            }
-        },
        async fetchClients() {
            this.loading = true
            try {
                const res = await axios.get('api/v1/virtual-investment/clients')
                if(res.data.status==='success'){
-                    this.msg = res.data.message
+                    // this.msg = res.data.message
                     let initialClient = res.data.data
-                    //sorting by sortPrice
-                    console.log(initialClient)
-                    // initialStock.sort((a,b) => a.unit_price - b.unit_price)
-                    // initialStock.reverse()
+                    //sorting
+                    initialClient.sort((a,b) => a.profit_status - b.profit_status)
+                    initialClient.reverse()
                     this.clients =  initialClient
                 }else{
                     this.msg = res.data.message
@@ -231,68 +278,6 @@ export default {
            }
         },
       //
-      async  updateUnitPrice() {
-          this.loading = true
-          this.formButtonControl = false
-          const data = {
-              unit_price : this.stock.unit_price
-          }
-         //
-         const res = await axios.put(`/api/v1/stocks/${this.stock.id}`,data)
-         if(res.data.status==='success'){
-            this.msg = res.data.message
-            this.dialog = false
-            this.snackbar = true
-            this.stock = {
-                company_name : '',
-                unit_price : ''
-            }
-            this.fetchStocks()
-         }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
-        },
-     //
-        editUnitPrice(stock) {
-            this.dialog = true
-            this.stock = stock
-            this.edit = true
-        // console.log(stock)
-        },
-    async confirmDel(stock){
-        this.stock = stock
-        this.delDialog  = true
-    },
-    async deleteStock (data) {
-        if(data==='no'){
-            this.delDialog = false
-            this.stock = {
-                company_name : '',
-                unit_price : ''
-            }
-        }else{
-            this.loading = true
-            this.formButtonControl = false
-            const res = await axios.delete(`api/v1/stocks/${this.stock.id}`)
-            if(res.data.status==='success'){
-                this.msg = res.data.message
-                this.delDialog = false
-                this.snackbar = true
-                this.stock = {
-                    company_name : '',
-                    unit_price : ''
-                }
-             this.fetchStocks()
-         }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
-        }
-
-    } , 
     },
     computed: {
     itemsWithIndex() {

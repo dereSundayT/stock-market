@@ -237,6 +237,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -247,7 +289,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       loading: false,
       dialog: false,
-      search: '',
       formButtonControl: true,
       //
       snackbar: false,
@@ -272,20 +313,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'formated_current_price'
       }, {
         text: 'Gain/Loss',
-        value: 'profit_status.amount'
+        value: 'profit_status'
       }],
       clientID: '',
       stocks: [],
       mystocks: [],
-      stock: {
-        "client_id": this.clientID,
-        "stock_id": '',
-        "volume": 1
-      }
+      userDetails: '',
+      summary: '',
+      selected: '',
+      volume: 1
     };
   },
   created: function created() {
-    console.log();
     var cid = this.$route.params.clientID;
     this.clientID = cid;
     this.fetchClientStocks(cid);
@@ -317,6 +356,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this.mystocks = initialStock;
                   _this.stocks = res.data.stocks;
+                  _this.userDetails = res.data.user;
+                  _this.summary = res.data.summary;
                 } else {
                   _this.msg = res.data.message;
                 }
@@ -357,18 +398,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log(_this2.stock);
+                _this2.loading = true;
+                _this2.formButtonControl = false;
+                data = {
+                  volume: _this2.volume,
+                  stock_id: _this2.selected,
+                  client_id: _this2.clientID
+                };
+                _context3.prev = 3;
+                _context3.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/v1/virtual-investment', data);
 
-              case 1:
+              case 6:
+                res = _context3.sent;
+
+                if (res.data.status === 'success') {
+                  _this2.msg = res.data.message;
+                  _this2.snackbar = true;
+                  _this2.dialog = false;
+                  _this2.selected = '';
+                  _this2.volume = 1;
+                  _this2.formButtonControl = true;
+
+                  _this2.fetchClientStocks(_this2.clientID);
+                } else {
+                  _this2.msg = res.data.message;
+                }
+
+                _this2.loading = false;
+                _this2.formButtonControl = true;
+                _context3.next = 15;
+                break;
+
+              case 12:
+                _context3.prev = 12;
+                _context3.t0 = _context3["catch"](3);
+                _this2.loading = false;
+
+              case 15:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[3, 12]]);
       }))();
     }
   },
@@ -3332,10 +3409,6 @@ var render = function () {
         ],
         1
       ),
-      _vm._v(" "),
-      _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
-      _vm._v(" "),
-      _vm._m(1),
     ]
   )
 }
@@ -3359,17 +3432,6 @@ var staticRenderFns = [
         _c("div", { staticClass: "sidebar-brand-text mx-3" }, [_vm._v(" \\j")]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center d-none d-md-inline" }, [
-      _c("button", {
-        staticClass: "rounded-circle border-0",
-        attrs: { id: "sidebarToggle" },
-      }),
-    ])
   },
 ]
 render._withStripped = true
@@ -3515,7 +3577,9 @@ var render = function () {
       _c("template", { slot: "contents" }, [
         _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [
           _vm._v("Clients Stock Lisiting  "),
-          _c("small", [_vm._v("username")]),
+          _c("small", { staticStyle: { "font-size": "13px" } }, [
+            _vm._v(_vm._s(this.userDetails.username)),
+          ]),
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "mb-4" }),
@@ -3525,14 +3589,16 @@ var render = function () {
             "div",
             { staticClass: "card-header py-3 d-flex justify-content-between" },
             [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  on: { click: _vm.fundClientWallet },
-                },
-                [_vm._v("Fund Wallet")]
-              ),
+              _c("div", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    on: { click: _vm.fundClientWallet },
+                  },
+                  [_vm._v("Fund Wallet")]
+                ),
+              ]),
               _vm._v(" "),
               _c(
                 "button",
@@ -3557,39 +3623,158 @@ var render = function () {
                 _c(
                   "v-card",
                   [
-                    _c(
-                      "v-card-title",
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            "append-icon": "mdi-magnify",
-                            label: "Search",
-                            "single-line": "",
-                            "hide-details": "",
-                          },
-                          model: {
-                            value: _vm.search,
-                            callback: function ($$v) {
-                              _vm.search = $$v
-                            },
-                            expression: "search",
-                          },
-                        }),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
                     _c("v-data-table", {
                       attrs: {
                         headers: _vm.headers,
                         items: _vm.itemsWithIndex,
-                        search: _vm.search,
-                        loading: _vm.loading,
-                        "loading-text": "Loading... Please wait",
                       },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "item.profit_status",
+                          fn: function (ref) {
+                            var item = ref.item
+                            return [
+                              item.profit_status > 0
+                                ? _c("span", { staticClass: "green" }, [
+                                    _vm._v(
+                                      "\n                                + € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.profit_status < 0
+                                ? _c("span", { staticClass: "red" }, [
+                                    _vm._v(
+                                      "\n                                - € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.profit_status === 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                    € " +
+                                        _vm._s(item.profit_status) +
+                                        "\n                                "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
                     }),
+                    _vm._v(" "),
+                    _c(
+                      "v-row",
+                      [
+                        _c("v-col", { attrs: { cols: "4" } }),
+                        _vm._v(" "),
+                        _c("v-col", { attrs: { cols: "4" } }),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "4" } },
+                          [
+                            _c(
+                              "v-row",
+                              [
+                                _c("v-col", { attrs: { cols: "3" } }),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "5" } }, [
+                                  _vm._v("Total"),
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "4" } }, [
+                                  _c(
+                                    "span",
+                                    {
+                                      class: [
+                                        _vm.summary.total_status
+                                          ? "green"
+                                          : "red",
+                                      ],
+                                    },
+                                    [_vm._v(" " + _vm._s(_vm.summary.total))]
+                                  ),
+                                ]),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              [
+                                _c("v-col", { attrs: { cols: "3" } }),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "5" } }, [
+                                  _vm._v("Invested"),
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "4" } }, [
+                                  _vm._v(_vm._s(_vm.summary.invested)),
+                                ]),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              [
+                                _c("v-col", { attrs: { cols: "3" } }),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "5" } }, [
+                                  _vm._v("Performance"),
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "4" } }, [
+                                  _c(
+                                    "span",
+                                    {
+                                      class: [
+                                        _vm.summary.performance_status
+                                          ? "green"
+                                          : "red",
+                                      ],
+                                    },
+                                    [
+                                      _vm._v(
+                                        " " + _vm._s(_vm.summary.performance)
+                                      ),
+                                    ]
+                                  ),
+                                ]),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              [
+                                _c("v-col", { attrs: { cols: "3" } }),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "5" } }, [
+                                  _vm._v("Cash Balance"),
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "4" } }, [
+                                  _vm._v(
+                                    _vm._s(_vm.userDetails.formated_wallet_bal)
+                                  ),
+                                ]),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
                   ],
                   1
                 ),
@@ -3639,21 +3824,76 @@ var render = function () {
                                       _c("v-col", { attrs: { cols: "12" } }, [
                                         _c(
                                           "select",
-                                          { staticClass: "form-group" },
-                                          _vm._l(_vm.stocks, function (stock) {
-                                            return _c(
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.selected,
+                                                expression: "selected",
+                                              },
+                                            ],
+                                            staticClass: "form-control",
+                                            on: {
+                                              change: function ($event) {
+                                                var $$selectedVal =
+                                                  Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function (o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function (o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                _vm.selected = $event.target
+                                                  .multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c(
                                               "option",
-                                              { key: stock.id },
-                                              [
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(stock.company_name) +
-                                                    " "
-                                                ),
-                                              ]
-                                            )
-                                          }),
-                                          0
+                                              { attrs: { value: "" } },
+                                              [_vm._v(" select a stock")]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.stocks,
+                                              function (stock) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    key: stock.id,
+                                                    domProps: {
+                                                      value: stock.id,
+                                                    },
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      " \n                                                    " +
+                                                        _vm._s(
+                                                          stock.company_name
+                                                        ) +
+                                                        "  | €" +
+                                                        _vm._s(
+                                                          stock.unit_price
+                                                        ) +
+                                                        "\n                                                "
+                                                    ),
+                                                  ]
+                                                )
+                                              }
+                                            ),
+                                          ],
+                                          2
                                         ),
                                       ]),
                                     ],
@@ -3674,15 +3914,11 @@ var render = function () {
                                               required: "",
                                             },
                                             model: {
-                                              value: _vm.stock.volume,
+                                              value: _vm.volume,
                                               callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.stock,
-                                                  "volume",
-                                                  $$v
-                                                )
+                                                _vm.volume = $$v
                                               },
-                                              expression: "stock.volume",
+                                              expression: "volume",
                                             },
                                           }),
                                         ],

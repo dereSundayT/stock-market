@@ -357,6 +357,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.fetchStocks();
   },
   methods: {
+    validateForm: function validateForm(stock) {
+      console.log(stock);
+
+      if (stock.company_name === '' || stock.unit_price === '') {
+        this.loading = false;
+        this.formButtonControl = true;
+        this.snackbar = true;
+        this.msg = 'Error:: Please fill all the field';
+        return true;
+      } else {
+        return false;
+      }
+    },
     addNewStockForm: function addNewStockForm() {
       this.edit = false;
       this.dialog = true;
@@ -376,10 +389,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.loading = true;
                 _this.formButtonControl = false;
-                _context.next = 4;
+
+                if (_this.validateForm(_this.stock)) {
+                  _context.next = 18;
+                  break;
+                }
+
+                _context.prev = 3;
+                _context.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/v1/stocks', _this.stock);
 
-              case 4:
+              case 6:
                 res = _context.sent;
 
                 if (res.data.status === 'success') {
@@ -391,17 +411,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.fetchStocks();
                 } else {
                   _this.msg = res.data.message;
+                  _this.snackbar = true;
                 }
 
                 _this.loading = false;
                 _this.formButtonControl = true;
+                _context.next = 18;
+                break;
 
-              case 8:
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](3);
+                _this.loading = false;
+                _this.formButtonControl = true;
+                _this.msg = _context.t0.message;
+                _this.snackbar = true;
+
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[3, 12]]);
       }))();
     },
     addUpdateStock: function addUpdateStock() {
@@ -431,7 +462,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context2.sent;
 
                 if (res.data.status === 'success') {
-                  _this2.msg = res.data.message;
+                  // this.msg = res.data.message
                   initialStock = res.data.data; //sorting by sortPrice
 
                   initialStock.sort(function (a, b) {
@@ -3549,10 +3580,6 @@ var render = function () {
         ],
         1
       ),
-      _vm._v(" "),
-      _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
-      _vm._v(" "),
-      _vm._m(1),
     ]
   )
 }
@@ -3576,17 +3603,6 @@ var staticRenderFns = [
         _c("div", { staticClass: "sidebar-brand-text mx-3" }, [_vm._v(" \\j")]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center d-none d-md-inline" }, [
-      _c("button", {
-        staticClass: "rounded-circle border-0",
-        attrs: { id: "sidebarToggle" },
-      }),
-    ])
   },
 ]
 render._withStripped = true
@@ -3741,15 +3757,6 @@ var render = function () {
             "div",
             { staticClass: "card-header py-3 d-flex justify-content-between" },
             [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger btn-sm",
-                  on: { click: _vm.addNewStockForm },
-                },
-                [_vm._v("Trash()")]
-              ),
-              _vm._v(" "),
               _c(
                 "button",
                 {

@@ -58,7 +58,6 @@ class VirtualInvestmentApiController extends Controller
         ]);
         ////gett only the items needed
         $stock =  Stock::where('id', $request->stock_id)->first();
-
         $client = Client::where('id', $request->client_id)->first();
         //
         $currentWalletBalance = $client->virtual_wallet;
@@ -67,8 +66,7 @@ class VirtualInvestmentApiController extends Controller
         //check if the current balance is greater than the current purchase price
         $newBal = $currentWalletBalance - $purchasePrice;
         if ($newBal > 0) {
-            $request['purchase_price'] = $purchasePrice;
-
+            $request['purchase_price'] = $stock->unit_price;
             $newPurchase = VirtualInvestment::create($request->all());
             if ($newPurchase) {
                 //use db Transaction
@@ -88,8 +86,32 @@ class VirtualInvestmentApiController extends Controller
     {
         $stockPurchase =  VirtualInvestment::with(['stock'])->where('client_id', $client_id)->get();
         $stocks = Stock::where('status', 1)->get();
+        $user = Client::where('id', $client_id)->first();
+
+        $invested = 0;
+        $total = 0;
+        foreach ($stockPurchase as $item) {
+            $amount_invested = $item->purchase_price * $item->volume;
+            $invested += $amount_invested;
+            //
+            $stock = Stock::where('id', $item->stock_id)->first();
+            $total_current_price = $stock->unit_price * $item->volume;
+            $total  += $total_current_price - $amount_invested;
+        }
+        $performance = number_format(($total / $invested) * 100, 2);
+
+
+        //total
+        $summary = [
+            'invested' => "€ $invested",
+            'total' =>  $total > 0 ? "+ € $total" : " € $total",
+            'total_status' => $total > 0 ? true : ($total == 0 ? '' : false),
+            'performance' => $performance > 0 ? "+ $performance %" : "$performance",
+            'performance_status' => $performance > 0 ? true : false
+        ];
+        // return $summary;
         if ($stockPurchase) {
-            return successResponse($stockPurchase, 200, 'Successfully fetched Stock Purchase', ["stocks" => $stocks]);
+            return successResponse($stockPurchase, 200, 'Successfully fetched Stock Purchase', ["stocks" => $stocks, 'user' => $user, 'summary' => $summary]);
         } else {
             return errorResponse(500, 'Failed to fetch purchase history for this client');
         }

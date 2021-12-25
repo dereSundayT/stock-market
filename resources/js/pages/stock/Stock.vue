@@ -6,7 +6,7 @@
             <div class="card shadow mb-4">
                 <!-- page heading -->
                 <div class="card-header py-3 d-flex justify-content-between">
-                    <button class="btn btn-danger btn-sm" @click="addNewStockForm">Trash()</button>
+                    <!-- <button class="btn btn-danger btn-sm" @click="addNewStockForm">Trash()</button> -->
                     <button class="btn btn-outline-primary btn-sm" @click="addNewStockForm">New Stock</button>
                 </div>
                 <!-- end of page heading -->
@@ -216,6 +216,18 @@ export default {
         this.fetchStocks()
     },
     methods:{
+        validateForm (stock) {
+            console.log(stock)
+            if(stock.company_name==='' || stock.unit_price===''){
+                this.loading= false
+                this.formButtonControl= true
+                this.snackbar = true
+                this.msg = 'Error:: Please fill all the field'
+                return true
+            }else{
+                return false
+            }
+        },
         addNewStockForm () {
             this.edit = false
             this.dialog = true
@@ -227,19 +239,30 @@ export default {
         async addNewStock() {
             this.loading = true
             this.formButtonControl = false
-            const res = await axios.post('api/v1/stocks',this.stock)
-            if(res.data.status==='success'){
-                this.msg = res.data.message
-                this.dialog = false
-                this.snackbar = true
-                this.stock = {}
-                this.fetchStocks()
-            }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
-
+            
+            if(! this.validateForm(this.stock)){
+                try {
+                    const res = await axios.post('api/v1/stocks',this.stock)
+                    if(res.data.status==='success'){
+                        this.msg = res.data.message
+                        this.dialog = false
+                        this.snackbar = true
+                        this.stock = {}
+                        this.fetchStocks()
+                    }else{
+                    this.msg = res.data.message
+                    this.snackbar = true
+                    }
+                    this.loading = false
+                    this.formButtonControl = true
+                } catch (error) {
+                    this.loading = false
+                    this.formButtonControl = true
+                    this.msg = error.message
+                    this.snackbar = true
+                }
+               
+            }
         },
         addUpdateStock () {
             if(this.edit){
@@ -256,7 +279,7 @@ export default {
            try {
                const res = await axios.get('api/v1/stocks')
                 if(res.data.status==='success'){
-            this.msg = res.data.message
+            // this.msg = res.data.message
             let initialStock = res.data.data
           //sorting by sortPrice
             initialStock.sort((a,b) => a.unit_price - b.unit_price)

@@ -26,17 +26,21 @@ class VirtualInvestment extends Model
         return $stock->unit_price;
     }
 
+
+    //
     public function getProfitStatusAttribute()
     {
         $stock = Stock::where('id', $this->stock_id)->first();
 
         $total_current_price = $stock->unit_price * $this->volume;
-        $purchase_price = $this->purchase_price;
+        $purchase_price = $this->purchase_price * $this->volume;
 
         $amount = $total_current_price - $purchase_price;
 
+        return $amount;
+
         return [
-            'amount' =>   $amount,
+            'amount' => $amount > 0 ? " + € $amount" : ($amount == 0 ? "€ $amount" : "$amount"),
             'profit' => $amount > 0 ? true : false
         ];
     }

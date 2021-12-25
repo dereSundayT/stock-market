@@ -766,10 +766,6 @@ var render = function () {
         ],
         1
       ),
-      _vm._v(" "),
-      _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
-      _vm._v(" "),
-      _vm._m(1),
     ]
   )
 }
@@ -793,17 +789,6 @@ var staticRenderFns = [
         _c("div", { staticClass: "sidebar-brand-text mx-3" }, [_vm._v(" \\j")]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center d-none d-md-inline" }, [
-      _c("button", {
-        staticClass: "rounded-circle border-0",
-        attrs: { id: "sidebarToggle" },
-      }),
-    ])
   },
 ]
 render._withStripped = true
