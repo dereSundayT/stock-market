@@ -49,19 +49,20 @@ export default {
     },
     methods : {
        async logout(){
-        try {
-            this.loading = true
-            const res = await axios.post('/api/v1/logout')
-            if(res.data.status==='success'){
-                this.loading = false
+            try {
+                this.loading = true
+                const res = await axios.post('/api/v1/logout')
+                if(res.data.status==='success'){
+                    this.loading = false
+                    localStorage.clear();
+                    this.$router.push('login')
+                }
+                
+            } catch (error) {
+                this.loading = false 
                 localStorage.clear();
                 this.$router.push('login')
             }
-            
-        } catch (error) {
-            
-        }
-
         }
     }
 }

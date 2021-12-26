@@ -247,14 +247,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$router.push('login');
                 }
 
-                _context.next = 10;
+                _context.next = 13;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+                _this.loading = false;
+                localStorage.clear();
 
-              case 10:
+                _this.$router.push('login');
+
+              case 13:
               case "end":
                 return _context.stop();
             }

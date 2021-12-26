@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\User;
+
 function successResponse($data, $statusCode, $msg, $options = [])
 {
     if (count($options) == 0) {
@@ -27,4 +30,12 @@ function errorResponse($statusCode, $msg)
         'message' => $msg,
         'data' => []
     ], $statusCode);
+}
+
+
+function getTokenForTest()
+{
+    $user = User::where('email', 'admin@demo.com')->first();
+    $token = $user->createToken('admin-login')->plainTextToken;
+    return $token;
 }

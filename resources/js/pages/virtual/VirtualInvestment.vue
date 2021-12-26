@@ -38,7 +38,7 @@
                                     + € {{ item.profit_status }}
                                     </span>
                                     <span v-if="item.profit_status < 0" class="red">
-                                    - € {{ item.profit_status }}
+                                    - € {{ Math.abs(item.profit_status) }}
                                     </span>
                                     <span v-if="item.profit_status === 0">
                                         € {{ item.profit_status }}
