@@ -213,7 +213,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.loading = false;
                   localStorage.clear();
 
-                  _this.$router.push('login');
+                  _this.$router.push({
+                    name: "login"
+                  });
                 }
 
                 _context.next = 13;
@@ -225,7 +227,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.loading = false;
                 localStorage.clear();
 
-                _this.$router.push('login');
+                _this.$router.push({
+                  name: "home"
+                });
 
               case 13:
               case "end":

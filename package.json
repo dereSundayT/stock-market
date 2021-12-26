@@ -27,7 +27,6 @@
     },
     "dependencies": {
         "@mdi/font": "^6.5.95",
-        "vue-good-table": "^2.21.11",
         "vue-router": "^3.5.3",
         "vuetify": "^2.6.1",
         "vuetify-loader": "^1.7.3"

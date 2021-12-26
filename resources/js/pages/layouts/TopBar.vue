@@ -55,13 +55,13 @@ export default {
                 if(res.data.status==='success'){
                     this.loading = false
                     localStorage.clear();
-                    this.$router.push('login')
+                    this.$router.push({ name: "login"})
                 }
                 
             } catch (error) {
                 this.loading = false 
                 localStorage.clear();
-                this.$router.push('login')
+                this.$router.push({ name: "home"})
             }
         }
     }
