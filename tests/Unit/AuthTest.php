@@ -14,16 +14,9 @@ class AuthTest extends TestCase
         $response = $this->get('/login');
         $response->assertStatus(200);
     }
-    //:::::::::::::::::::
-    //testing if login endpoint exist
-    public function test_login_api_url()
-    {
-        $response = $this->get('/api/v1/login');
-        $response->assertStatus(200);
-    }
     //::::::::::::::::::::::::::;
     //login 
-    public function test_login_admin()
+    public function test_login_endpoint()
     {
         $response = $this->post('/api/v1/login', [
             'email' => 'admin@demo.com',
@@ -33,13 +26,9 @@ class AuthTest extends TestCase
     }
     //:::::::::::
     //logout url exist
-    public function test_logout_api_url()
+    public function test_logout_endpoint()
     {
-        // $user = User::where('email', 'admin@demo.com')->first();
-        // $token = $user->createToken('admin-login')->plainTextToken;
-
         $token = getTokenForTest();
-
         $response = $this->post('/api/v1/logout', [], ['Accept' => 'application/json', 'Authorization' => "Bearer $token"]);
         $response->assertStatus(200);
     }

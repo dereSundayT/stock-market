@@ -7,15 +7,14 @@ use Tests\TestCase;
 
 class StockTest extends TestCase
 {
-    public function test_get_all_stock()
+    public function test_get_all_stock_endpoint()
     {
-        $stocks = Stock::all();
-        if ($stocks) {
-            $this->assertTrue(true);
-        }
+        $token = getTokenForTest();
+        $response = $this->get('/api/v1/stocks', ['Accept' => 'application/json', 'Authorization' => "Bearer $token"]);
+        $response->assertStatus(200);
     }
     //store
-    public function test_create_stock()
+    public function test_create_stock_endpoint()
     {
         $token = getTokenForTest();
         $company_name = "test_" . time();
@@ -27,7 +26,7 @@ class StockTest extends TestCase
         $response->assertStatus(201);
     }
     //update
-    public function test_update_stock()
+    public function test_update_stock_endpoint()
     {
         $stock = Stock::where('created_by', 1)->first();
         $id = $stock->id;
@@ -42,7 +41,7 @@ class StockTest extends TestCase
         $response->assertStatus(200);
     }
     //destroy
-    public function test_delete_stock()
+    public function test_delete_stock_endpoint()
     {
         //
         $stock = Stock::where('created_by', 1)->first();
