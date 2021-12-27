@@ -418,6 +418,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -429,6 +482,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: false,
       dialog: false,
       formButtonControl: true,
+      fundingDialogue: false,
+      fundingDetails: '',
       //
       snackbar: false,
       msg: '',
@@ -459,8 +514,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       mystocks: [],
       userDetails: '',
       summary: '',
+      //
       selected: '',
-      volume: 1
+      volume: 1,
+      //
+      new_amount: 0
     };
   },
   created: function created() {
@@ -521,20 +579,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     //
     fundClientWallet: function fundClientWallet() {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var data, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _this2.loading = true;
+                _this2.formButtonControl = false;
+                data = {
+                  amount: _this2.new_amount,
+                  client_id: _this2.clientID
+                };
+                _context2.prev = 3;
+                _context2.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/v1/virtual-investment/clients/fund-wallet', data);
+
+              case 6:
+                res = _context2.sent;
+
+                if (res.data.status === 'success') {
+                  _this2.msg = res.data.message;
+                  _this2.snackbar = true;
+                  _this2.loading = false;
+                  _this2.formButtonControl = true;
+                  _this2.fundingDialogue = false;
+
+                  _this2.fetchClientStocks(_this2.clientID);
+                } else {
+                  _this2.msg = res.data.message;
+                }
+
+                _this2.loading = false;
+                _this2.formButtonControl = true;
+                _context2.next = 16;
+                break;
+
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2["catch"](3);
+                _this2.loading = false;
+                _this2.formButtonControl = true;
+
+              case 16:
+                console.log(data);
+
+              case 17:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[3, 12]]);
       }))();
     },
     purchaseStock: function purchaseStock() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var data, res;
@@ -542,12 +643,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this2.loading = true;
-                _this2.formButtonControl = false;
+                _this3.loading = true;
+                _this3.formButtonControl = false;
                 data = {
-                  volume: _this2.volume,
-                  stock_id: _this2.selected,
-                  client_id: _this2.clientID
+                  volume: _this3.volume,
+                  stock_id: _this3.selected,
+                  client_id: _this3.clientID
                 };
                 _context3.prev = 3;
                 _context3.next = 6;
@@ -557,27 +658,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context3.sent;
 
                 if (res.data.status === 'success') {
-                  _this2.msg = res.data.message;
-                  _this2.snackbar = true;
-                  _this2.dialog = false;
-                  _this2.selected = '';
-                  _this2.volume = 1;
-                  _this2.formButtonControl = true;
+                  _this3.msg = res.data.message;
+                  _this3.snackbar = true;
+                  _this3.dialog = false;
+                  _this3.selected = '';
+                  _this3.volume = 1;
+                  _this3.formButtonControl = true;
 
-                  _this2.fetchClientStocks(_this2.clientID);
+                  _this3.fetchClientStocks(_this3.clientID);
                 } else {
-                  _this2.msg = res.data.message;
+                  _this3.msg = res.data.message;
                 }
 
-                _this2.loading = false;
-                _this2.formButtonControl = true;
+                _this3.loading = false;
+                _this3.formButtonControl = true;
                 _context3.next = 15;
                 break;
 
               case 12:
                 _context3.prev = 12;
                 _context3.t0 = _context3["catch"](3);
-                _this2.loading = false;
+                _this3.loading = false;
 
               case 15:
               case "end":
@@ -586,6 +687,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3, null, [[3, 12]]);
       }))();
+    },
+    fundClientWalletForm: function fundClientWalletForm() {
+      this.fundingDialogue = true;
     }
   },
   //
@@ -3720,201 +3824,428 @@ var render = function () {
     "dashboard-wrapper",
     { attrs: { loading: _vm.loading, snackbar: _vm.snackbar, msg: _vm.msg } },
     [
-      _c("template", { slot: "contents" }, [
-        _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [
-          _vm._v("Clients Stock Lisiting  "),
-          _c("small", { staticStyle: { "font-size": "13px" } }, [
-            _vm._v(_vm._s(this.userDetails.username)),
+      _c(
+        "template",
+        { slot: "contents" },
+        [
+          _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [
+            _vm._v("Clients Stock Lisiting  "),
+            _c("small", { staticStyle: { "font-size": "13px" } }, [
+              _vm._v(_vm._s(this.userDetails.username)),
+            ]),
           ]),
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "mb-4" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "card shadow mb-4" }, [
-          _c(
-            "div",
-            { staticClass: "card-header py-3 d-flex justify-content-between" },
-            [
-              _c("div", [
+          _vm._v(" "),
+          _c("p", { staticClass: "mb-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card-header py-3 d-flex justify-content-between",
+              },
+              [
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary btn-sm",
+                      on: { click: _vm.fundClientWalletForm },
+                    },
+                    [_vm._v("Fund Wallet")]
+                  ),
+                ]),
+                _vm._v(" "),
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-primary btn-sm",
-                    on: { click: _vm.fundClientWallet },
-                  },
-                  [_vm._v("Fund Wallet")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-outline-primary btn-sm",
-                  on: {
-                    click: function ($event) {
-                      _vm.dialog = true
+                    staticClass: "btn btn-outline-primary btn-sm",
+                    on: {
+                      click: function ($event) {
+                        _vm.dialog = true
+                      },
                     },
                   },
-                },
-                [_vm._v("Purchase Stock")]
-              ),
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
+                  [_vm._v("Purchase Stock")]
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
               [
-                _c(
-                  "v-card",
-                  [
-                    _c("v-data-table", {
-                      attrs: {
-                        headers: _vm.headers,
-                        items: _vm.itemsWithIndex,
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "item.profit_status",
-                          fn: function (ref) {
-                            var item = ref.item
-                            return [
-                              item.profit_status > 0
-                                ? _c("span", { staticClass: "green" }, [
-                                    _vm._v(
-                                      "\n                                + € " +
-                                        _vm._s(item.profit_status) +
-                                        "\n                                "
-                                    ),
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              item.profit_status < 0
-                                ? _c("span", { staticClass: "red" }, [
-                                    _vm._v(
-                                      "\n                                - € " +
-                                        _vm._s(Math.abs(item.profit_status)) +
-                                        "\n                                "
-                                    ),
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              item.profit_status === 0
-                                ? _c("span", [
-                                    _vm._v(
-                                      "\n                                    € " +
-                                        _vm._s(item.profit_status) +
-                                        "\n                                "
-                                    ),
-                                  ])
-                                : _vm._e(),
-                            ]
-                          },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c("v-data-table", {
+                        attrs: {
+                          headers: _vm.headers,
+                          items: _vm.itemsWithIndex,
                         },
-                      ]),
-                    }),
-                    _vm._v(" "),
+                        scopedSlots: _vm._u([
+                          {
+                            key: "item.profit_status",
+                            fn: function (ref) {
+                              var item = ref.item
+                              return [
+                                item.profit_status > 0
+                                  ? _c("span", { staticClass: "green" }, [
+                                      _vm._v(
+                                        "\n                                + € " +
+                                          _vm._s(item.profit_status) +
+                                          "\n                                "
+                                      ),
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                item.profit_status < 0
+                                  ? _c("span", { staticClass: "red" }, [
+                                      _vm._v(
+                                        "\n                                - € " +
+                                          _vm._s(Math.abs(item.profit_status)) +
+                                          "\n                                "
+                                      ),
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                item.profit_status === 0
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                    € " +
+                                          _vm._s(item.profit_status) +
+                                          "\n                                "
+                                      ),
+                                    ])
+                                  : _vm._e(),
+                              ]
+                            },
+                          },
+                        ]),
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { attrs: { cols: "4" } }),
+                          _vm._v(" "),
+                          _c("v-col", { attrs: { cols: "4" } }),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "4" } },
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _c("v-col", { attrs: { cols: "3" } }),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "5" } }, [
+                                    _vm._v("Total"),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _c(
+                                      "span",
+                                      {
+                                        class: [
+                                          _vm.summary.total_status
+                                            ? "green"
+                                            : "red",
+                                        ],
+                                      },
+                                      [_vm._v(" " + _vm._s(_vm.summary.total))]
+                                    ),
+                                  ]),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c("v-col", { attrs: { cols: "3" } }),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "5" } }, [
+                                    _vm._v("Invested"),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _vm._v(_vm._s(_vm.summary.invested)),
+                                  ]),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c("v-col", { attrs: { cols: "3" } }),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "5" } }, [
+                                    _vm._v("Performance"),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _c(
+                                      "span",
+                                      {
+                                        class: [
+                                          _vm.summary.performance_status
+                                            ? "green"
+                                            : "red",
+                                        ],
+                                      },
+                                      [
+                                        _vm._v(
+                                          " " + _vm._s(_vm.summary.performance)
+                                        ),
+                                      ]
+                                    ),
+                                  ]),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c("v-col", { attrs: { cols: "3" } }),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "5" } }, [
+                                    _vm._v("Cash Balance"),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.userDetails.formated_wallet_bal
+                                      )
+                                    ),
+                                  ]),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                _vm._v(" "),
+                _c(
+                  "v-row",
+                  { attrs: { justify: "center" } },
+                  [
                     _c(
-                      "v-row",
+                      "v-dialog",
+                      {
+                        attrs: { persistent: "", "max-width": "600px" },
+                        model: {
+                          value: _vm.dialog,
+                          callback: function ($$v) {
+                            _vm.dialog = $$v
+                          },
+                          expression: "dialog",
+                        },
+                      },
                       [
-                        _c("v-col", { attrs: { cols: "4" } }),
-                        _vm._v(" "),
-                        _c("v-col", { attrs: { cols: "4" } }),
-                        _vm._v(" "),
                         _c(
-                          "v-col",
-                          { attrs: { cols: "4" } },
+                          "v-card",
                           [
                             _c(
-                              "v-row",
+                              "v-card-title",
                               [
-                                _c("v-col", { attrs: { cols: "3" } }),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "5" } }, [
-                                  _vm._v("Total"),
+                                _c("span", { staticClass: "text-h5" }, [
+                                  _vm._v("Purchase a Stock"),
                                 ]),
                                 _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "4" } }, [
-                                  _c(
-                                    "span",
-                                    {
-                                      class: [
-                                        _vm.summary.total_status
-                                          ? "green"
-                                          : "red",
+                                _c("v-spacer"),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-text",
+                              [
+                                _c(
+                                  "v-container",
+                                  [
+                                    _c(
+                                      "v-row",
+                                      [
+                                        _c("v-col", { attrs: { cols: "12" } }, [
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.selected,
+                                                  expression: "selected",
+                                                },
+                                              ],
+                                              staticClass: "form-control",
+                                              on: {
+                                                change: function ($event) {
+                                                  var $$selectedVal =
+                                                    Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function (o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function (o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                  _vm.selected = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                },
+                                              },
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [_vm._v(" select a stock")]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(
+                                                _vm.stocks,
+                                                function (stock) {
+                                                  return _c(
+                                                    "option",
+                                                    {
+                                                      key: stock.id,
+                                                      domProps: {
+                                                        value: stock.id,
+                                                      },
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        " \n                                                    " +
+                                                          _vm._s(
+                                                            stock.company_name
+                                                          ) +
+                                                          "  | €" +
+                                                          _vm._s(
+                                                            stock.unit_price
+                                                          ) +
+                                                          "\n                                                "
+                                                      ),
+                                                    ]
+                                                  )
+                                                }
+                                              ),
+                                            ],
+                                            2
+                                          ),
+                                        ]),
                                       ],
-                                    },
-                                    [_vm._v(" " + _vm._s(_vm.summary.total))]
-                                  ),
-                                ]),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              [
-                                _c("v-col", { attrs: { cols: "3" } }),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "5" } }, [
-                                  _vm._v("Invested"),
-                                ]),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "4" } }, [
-                                  _vm._v(_vm._s(_vm.summary.invested)),
-                                ]),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              [
-                                _c("v-col", { attrs: { cols: "3" } }),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "5" } }, [
-                                  _vm._v("Performance"),
-                                ]),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "4" } }, [
-                                  _c(
-                                    "span",
-                                    {
-                                      class: [
-                                        _vm.summary.performance_status
-                                          ? "green"
-                                          : "red",
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-row",
+                                      [
+                                        _c(
+                                          "v-col",
+                                          { attrs: { cols: "12" } },
+                                          [
+                                            _c("v-text-field", {
+                                              attrs: {
+                                                label: "Volume*",
+                                                type: "number",
+                                                required: "",
+                                              },
+                                              model: {
+                                                value: _vm.volume,
+                                                callback: function ($$v) {
+                                                  _vm.volume = $$v
+                                                },
+                                                expression: "volume",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
                                       ],
-                                    },
-                                    [
-                                      _vm._v(
-                                        " " + _vm._s(_vm.summary.performance)
-                                      ),
-                                    ]
-                                  ),
-                                ]),
+                                      1
+                                    ),
+                                  ],
+                                  1
+                                ),
                               ],
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-row",
-                              [
-                                _c("v-col", { attrs: { cols: "3" } }),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "5" } }, [
-                                  _vm._v("Cash Balance"),
-                                ]),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "4" } }, [
-                                  _vm._v(
-                                    _vm._s(_vm.userDetails.formated_wallet_bal)
-                                  ),
-                                ]),
-                              ],
-                              1
-                            ),
+                            _vm.formButtonControl
+                              ? _c(
+                                  "v-card-actions",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          color: "blue darken-1",
+                                          text: "",
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            _vm.dialog = false
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Close\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          color: "blue darken-1",
+                                          text: "",
+                                        },
+                                        on: { click: _vm.purchaseStock },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    BUY\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                  ],
+                                  1
+                                )
+                              : _c(
+                                  "v-card-actions",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c("v-progress-circular", {
+                                      attrs: { indeterminate: "", size: "30" },
+                                    }),
+                                  ],
+                                  1
+                                ),
                           ],
                           1
                         ),
@@ -3925,219 +4256,135 @@ var render = function () {
                   1
                 ),
               ],
-              _vm._v(" "),
+              2
+            ),
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
               _c(
-                "v-row",
-                { attrs: { justify: "center" } },
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "600px" },
+                  model: {
+                    value: _vm.fundingDialogue,
+                    callback: function ($$v) {
+                      _vm.fundingDialogue = $$v
+                    },
+                    expression: "fundingDialogue",
+                  },
+                },
                 [
                   _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "600px" },
-                      model: {
-                        value: _vm.dialog,
-                        callback: function ($$v) {
-                          _vm.dialog = $$v
-                        },
-                        expression: "dialog",
-                      },
-                    },
+                    "v-card",
                     [
                       _c(
-                        "v-card",
+                        "v-card-title",
                         [
-                          _c(
-                            "v-card-title",
-                            [
-                              _c("span", { staticClass: "text-h5" }, [
-                                _vm._v("Purchase a Stock"),
-                              ]),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                            ],
-                            1
-                          ),
+                          _c("span", { staticClass: "text-h5" }, [
+                            _vm._v(
+                              "Fund " +
+                                _vm._s(_vm.userDetails.username) +
+                                " Wallet"
+                            ),
+                          ]),
                           _vm._v(" "),
-                          _c(
-                            "v-card-text",
-                            [
-                              _c(
-                                "v-container",
-                                [
-                                  _c(
-                                    "v-row",
-                                    [
-                                      _c("v-col", { attrs: { cols: "12" } }, [
-                                        _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.selected,
-                                                expression: "selected",
-                                              },
-                                            ],
-                                            staticClass: "form-control",
-                                            on: {
-                                              change: function ($event) {
-                                                var $$selectedVal =
-                                                  Array.prototype.filter
-                                                    .call(
-                                                      $event.target.options,
-                                                      function (o) {
-                                                        return o.selected
-                                                      }
-                                                    )
-                                                    .map(function (o) {
-                                                      var val =
-                                                        "_value" in o
-                                                          ? o._value
-                                                          : o.value
-                                                      return val
-                                                    })
-                                                _vm.selected = $event.target
-                                                  .multiple
-                                                  ? $$selectedVal
-                                                  : $$selectedVal[0]
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              { attrs: { value: "" } },
-                                              [_vm._v(" select a stock")]
-                                            ),
-                                            _vm._v(" "),
-                                            _vm._l(
-                                              _vm.stocks,
-                                              function (stock) {
-                                                return _c(
-                                                  "option",
-                                                  {
-                                                    key: stock.id,
-                                                    domProps: {
-                                                      value: stock.id,
-                                                    },
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      " \n                                                    " +
-                                                        _vm._s(
-                                                          stock.company_name
-                                                        ) +
-                                                        "  | €" +
-                                                        _vm._s(
-                                                          stock.unit_price
-                                                        ) +
-                                                        "\n                                                "
-                                                    ),
-                                                  ]
-                                                )
-                                              }
-                                            ),
-                                          ],
-                                          2
-                                        ),
-                                      ]),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-row",
-                                    [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              label: "Volume*",
-                                              type: "number",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.volume,
-                                              callback: function ($$v) {
-                                                _vm.volume = $$v
-                                              },
-                                              expression: "volume",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _vm.formButtonControl
-                            ? _c(
-                                "v-card-actions",
-                                [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "blue darken-1",
-                                        text: "",
-                                      },
-                                      on: {
-                                        click: function ($event) {
-                                          _vm.dialog = false
-                                        },
-                                      },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    Close\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "blue darken-1",
-                                        text: "",
-                                      },
-                                      on: { click: _vm.purchaseStock },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    BUY\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                ],
-                                1
-                              )
-                            : _c(
-                                "v-card-actions",
-                                [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c("v-progress-circular", {
-                                    attrs: { indeterminate: "", size: "30" },
-                                  }),
-                                ],
-                                1
-                              ),
+                          _c("v-spacer"),
                         ],
                         1
                       ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-container",
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "amount*",
+                                          type: "text",
+                                          required: "",
+                                        },
+                                        model: {
+                                          value: _vm.new_amount,
+                                          callback: function ($$v) {
+                                            _vm.new_amount = $$v
+                                          },
+                                          expression: "new_amount",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.formButtonControl
+                        ? _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "blue darken-1", text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      _vm.fundingDialogue = false
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    Close\n                                "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "blue darken-1", text: "" },
+                                  on: { click: _vm.fundClientWallet },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    Fund wallet\n                                "
+                                  ),
+                                ]
+                              ),
+                            ],
+                            1
+                          )
+                        : _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c("v-progress-circular", {
+                                attrs: { indeterminate: "", size: "30" },
+                              }),
+                            ],
+                            1
+                          ),
                     ],
                     1
                   ),
@@ -4145,10 +4392,11 @@ var render = function () {
                 1
               ),
             ],
-            2
+            1
           ),
-        ]),
-      ]),
+        ],
+        1
+      ),
     ],
     2
   )

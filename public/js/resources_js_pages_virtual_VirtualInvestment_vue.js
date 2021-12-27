@@ -400,58 +400,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -462,7 +410,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       loading: false,
       dialog: false,
-      fundingDialogue: false,
       delDialog: false,
       search: '',
       formButtonControl: true,
@@ -492,8 +439,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       edit: false,
       client: {
         username: ''
-      },
-      fundingDetails: ''
+      }
     };
   },
   created: function created() {
@@ -507,40 +453,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         username: ''
       };
     },
-    fundClientWalletForm: function fundClientWalletForm(client) {
-      this.fundingDialogue = true;
-      this.fundingDetails = client;
-    },
-    fundClientWallet: function fundClientWallet() {
+    addNewClient: function addNewClient() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    addNewClient: function addNewClient() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
                 _this.loading = true;
                 _this.formButtonControl = false;
-                _context2.prev = 2;
-                _context2.next = 5;
+                _context.prev = 2;
+                _context.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/v1/virtual-investment/clients', _this.client);
 
               case 5:
-                res = _context2.sent;
+                res = _context.sent;
 
                 if (res.data.status === 'success') {
                   _this.msg = res.data.message;
@@ -555,42 +484,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.loading = false;
                 _this.formButtonControl = true;
-                _context2.next = 17;
+                _context.next = 17;
                 break;
 
               case 11:
-                _context2.prev = 11;
-                _context2.t0 = _context2["catch"](2);
+                _context.prev = 11;
+                _context.t0 = _context["catch"](2);
                 // console.log(erri)
                 _this.loading = false;
                 _this.formButtonControl = true;
-                _this.msg = _context2.t0.message;
+                _this.msg = _context.t0.message;
                 _this.snackbar = true;
 
               case 17:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, null, [[2, 11]]);
+        }, _callee, null, [[2, 11]]);
       }))();
     },
     fetchClients: function fetchClients() {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var res, initialClient;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 _this2.loading = true;
-                _context3.prev = 1;
-                _context3.next = 4;
+                _context2.prev = 1;
+                _context2.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get('api/v1/virtual-investment/clients');
 
               case 4:
-                res = _context3.sent;
+                res = _context2.sent;
 
                 if (res.data.status === 'success') {
                   // this.msg = res.data.message
@@ -607,20 +536,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this2.loading = false;
                 _this2.formButtonControl = true;
-                _context3.next = 13;
+                _context2.next = 13;
                 break;
 
               case 10:
-                _context3.prev = 10;
-                _context3.t0 = _context3["catch"](1);
+                _context2.prev = 10;
+                _context2.t0 = _context2["catch"](1);
                 _this2.loading = false;
 
               case 13:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3, null, [[1, 10]]);
+        }, _callee2, null, [[1, 10]]);
       }))();
     } //
 
@@ -4014,154 +3943,6 @@ var render = function () {
                                     [
                                       _vm._v(
                                         "\n                                    Add\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                ],
-                                1
-                              )
-                            : _c(
-                                "v-card-actions",
-                                [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c("v-progress-circular", {
-                                    attrs: { indeterminate: "", size: "30" },
-                                  }),
-                                ],
-                                1
-                              ),
-                        ],
-                        1
-                      ),
-                    ],
-                    1
-                  ),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                { attrs: { justify: "center" } },
-                [
-                  _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "600px" },
-                      model: {
-                        value: _vm.fundingDialogue,
-                        callback: function ($$v) {
-                          _vm.fundingDialogue = $$v
-                        },
-                        expression: "fundingDialogue",
-                      },
-                    },
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c(
-                            "v-card-title",
-                            [
-                              _c("span", { staticClass: "text-h5" }, [
-                                _vm._v(
-                                  "Fund " +
-                                    _vm._s(_vm.fundingDetails.username) +
-                                    " Wallet"
-                                ),
-                              ]),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-text",
-                            [
-                              _c(
-                                "v-container",
-                                [
-                                  _c(
-                                    "v-row",
-                                    [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              label: "amount*",
-                                              type: "text",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.fundingDetails
-                                                  .wallet_balance,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.fundingDetails,
-                                                  "wallet_balance",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "fundingDetails.wallet_balance",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _vm.formButtonControl
-                            ? _c(
-                                "v-card-actions",
-                                [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "blue darken-1",
-                                        text: "",
-                                      },
-                                      on: {
-                                        click: function ($event) {
-                                          _vm.fundingDialogue = false
-                                        },
-                                      },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    Close\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "blue darken-1",
-                                        text: "",
-                                      },
-                                      on: { click: _vm.fundClientWallet },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    Fund wallet\n                                "
                                       ),
                                     ]
                                   ),
