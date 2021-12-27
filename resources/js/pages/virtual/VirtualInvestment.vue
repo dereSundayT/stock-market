@@ -182,7 +182,6 @@ export default {
             }else{
                 return msg
             }
-
         },
         addNewClientForm () {
             this.edit = false

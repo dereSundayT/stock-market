@@ -247,7 +247,7 @@ export default {
         this.fetchClientStocks(cid)
     },
     methods:{
-        formatErrorResponse(error){
+     formatedErrorResponse(error){
             this.loading = false
             this.formButtonControl = true
             let msg = error.response === undefined
@@ -256,8 +256,12 @@ export default {
 					? error.response.data.message
 					: error.response.data.errors
             this.snackbar = true
-            return msg
-
+            if(error.response.status === 401){
+                    localStorage.clear();
+                    this.$router.push({name:'login'})
+            }else{
+                return msg
+            }
         },
        async fetchClientStocks(id) {
            this.loading = true

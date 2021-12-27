@@ -531,12 +531,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.fetchClientStocks(cid);
   },
   methods: {
-    formatErrorResponse: function formatErrorResponse(error) {
+    formatedErrorResponse: function formatedErrorResponse(error) {
       this.loading = false;
       this.formButtonControl = true;
       var msg = error.response === undefined ? 'No internet, please ensure you are connected to the internet' : error.response.data.errors === undefined ? error.response.data.message : error.response.data.errors;
       this.snackbar = true;
-      return msg;
+
+      if (error.response.status === 401) {
+        localStorage.clear();
+        this.$router.push({
+          name: 'login'
+        });
+      } else {
+        return msg;
+      }
     },
     fetchClientStocks: function fetchClientStocks(id) {
       var _this = this;

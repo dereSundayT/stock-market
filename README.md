@@ -9,5 +9,4 @@ php artisan migrate
 
 php artisan serve
 
-duplicate entry
-// "chart.js": "^3.7.0",
+postman collection located in the root dir [name:adcash.postman_collection.json]

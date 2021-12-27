@@ -148,15 +148,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -170,23 +161,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: false,
       snackbar: false,
       msg: '',
-      dashboardSummary: '',
-      myStyles: {
-        // height: `60vh`,
-        width: '100%',
-        position: 'relative'
-      },
-      datacollection: {
-        labels: [],
-        datasets: [{
-          data: [],
-          label: "",
-          borderColor: "#3e95cd",
-          fill: false
-        }],
-        // responsive: true,
-        maintainAspectRatio: false
-      } //
+      dashboardSummary: '' //
 
     };
   },
@@ -224,8 +199,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (res.data.status === 'success') {
                   _this.loading = false;
-                  _this.datacollection.datasets[0].data = res.data.data.lineGraph;
-                  _this.datacollection.labels = res.data.data.labels;
                   _this.dashboardSummary = res.data.data;
                 }
 
@@ -39793,22 +39766,6 @@ var render = function () {
                 ]
               ),
             ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "container" }, [
-            _c(
-              "div",
-              { staticClass: "col-xl-12 col-lg-12 p-5" },
-              [
-                _c("line-chart", {
-                  attrs: {
-                    "chart-data": _vm.datacollection,
-                    styles: _vm.myStyles,
-                  },
-                }),
-              ],
-              1
-            ),
           ]),
         ]),
       ]),

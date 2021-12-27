@@ -162,7 +162,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   localStorage.setItem("authData", JSON.stringify(userData));
                   localStorage.setItem("token", token); //redirec to dahboard page
 
-                  _this.$router.push('stocks');
+                  _this.$router.push({
+                    name: 'dashboard'
+                  });
                 } else {
                   _this.loading = false;
                 }
@@ -191,7 +193,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.token = localStorage.getItem('token');
 
     if (this.token !== null) {
-      this.$router.push('stocks');
+      this.$router.push({
+        name: 'dashboard'
+      });
     }
   }
 });

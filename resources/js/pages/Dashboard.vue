@@ -71,15 +71,6 @@
                     </div>
 
                     <!-- Content Row -->
-
-                    <div class="container">
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12 p-5">
-                        <line-chart :chart-data="datacollection" :styles="myStyles"></line-chart> 
-                        </div>
-                    </div>
-
-
                 </div>
         
     </template>
@@ -99,25 +90,6 @@ export default {
          snackbar: false,
          msg :'',
         dashboardSummary : '',
-        myStyles : {
-            // height: `60vh`,
-            width:'100%',
-            position: 'relative'
-
-        },
-        datacollection: {
-            labels: [],
-            datasets: [
-                {
-                    data: [],
-                    label: "",
-                    borderColor: "#3e95cd",
-                    fill: false
-                }
-            ],
-            // responsive: true,
-            maintainAspectRatio: false
-      }
        //
     }),
     methods : {
@@ -142,8 +114,6 @@ export default {
                  const res =  await axios.get('/api/v1/dashboard');
                  if(res.data.status === 'success'){
                      this.loading = false
-                     this.datacollection.datasets[0].data  = res.data.data.lineGraph
-                     this.datacollection.labels = res.data.data.labels
                      this.dashboardSummary = res.data.data
                  }
             } catch (error) {

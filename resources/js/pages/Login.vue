@@ -118,7 +118,7 @@ export default {
                     localStorage.setItem("authData", JSON.stringify(userData));
                     localStorage.setItem("token",token)
                     //redirec to dahboard page
-                    this.$router.push('stocks')
+                    this.$router.push({name:'dashboard'})
                 }else{
                     this.loading = false;
                 }
@@ -140,7 +140,7 @@ export default {
     created (){
          this.token  = localStorage.getItem('token')
         if(this.token!==null){
-            this.$router.push('stocks')
+            this.$router.push({name:'dashboard'})
         }
 
     }
