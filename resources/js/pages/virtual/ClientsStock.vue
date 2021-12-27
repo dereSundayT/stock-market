@@ -8,7 +8,7 @@
                 <div class="card-header py-3 d-flex justify-content-between">
                     <div> 
                         <!-- <span>back</span> -->
-                        <button class="btn btn-primary btn-sm" @click="fundClientWalletForm">Fund Wallet</button>
+                        <button class="btn btn-primary btn-sm" @click="fundingDialogue=true">Fund Wallet</button>
                     </div>
                     <button class="btn btn-outline-primary btn-sm"  @click="dialog=true">Purchase Stock</button>
                 </div>
@@ -105,6 +105,7 @@
                                                 label="Volume*"
                                                 type="number"
                                                 v-model="volume"
+                                                min="1"
                                                 required
                                                 ></v-text-field>
                                             </v-col>
@@ -158,7 +159,8 @@
                                             <v-col cols="12">
                                                 <v-text-field
                                                 label="amount*"
-                                                type="text"
+                                                type="number"
+                                                min="1"
                                                 v-model="new_amount"
                                                 required
                                                 ></v-text-field>
@@ -280,28 +282,30 @@ export default {
         }, 
         //
         async fundClientWallet() {
-            this.loading = true
-            if(this.new_amount ===0 || this.new_amount === ''){
-                this.msg = 'Amount field is required/Amount cant be Zero'
+            this.msg = ''
+            this.snackbar = false
+            if(this.new_amount <=0){
+                this.msg = "Amount field is required/Amount cant be Zero"
                 this.snackbar = true
             }else{
+                this.loading = true
                 this.formButtonControl = false
+                this.snackbar = false
+                this.msg = ''
                 const data = {
                     amount : this.new_amount,
                     client_id : this.clientID
                 }
                 try {
-                const res =  await axios.post('/api/v1/virtual-investment/clients/fund-wallet',data);
-                    if(res.data.status==='success'){
-                        this.msg = res.data.message
-                        this.snackbar = true 
-                        this.loading = false
-                        this.formButtonControl = true
-                        this.fundingDialogue = false
-                        this.fetchClientStocks(this.clientID)
-                        this.loading = false
-                        this.formButtonControl = true   
-                    }
+                    const res =  await axios.post('/api/v1/virtual-investment/clients/fund-wallet',data);
+                        if(res.data.status==='success'){
+                            this.msg = res.data.message
+                            this.snackbar = true 
+                            this.loading = false
+                            this.formButtonControl = true
+                            this.fundingDialogue = false
+                            this.fetchClientStocks(this.clientID)   
+                        }
                 } catch (error) {
                     this.msg =	this.formatErrorResponse(error)
                 }
@@ -309,9 +313,9 @@ export default {
            
         },
         async purchaseStock(){
-            this.loading = true
-            this.formButtonControl = false
-            if(this.volume !=='' || this.selected !==''){
+            if(this.volume > 0 && this.selected > 0){
+                 this.loading = true
+                this.formButtonControl = false
                 let data = {
                     volume:this.volume,
                     stock_id:this.selected,
@@ -332,12 +336,12 @@ export default {
                 } catch (error) {
                     this.msg = this.formatErrorResponse(error)
                 }
+            }else{
+                 this.msg = 'All fields are required'
+                 this.snackbar = true 
+                 this.loading = false
             }
-        },
-          fundClientWalletForm() {
-            this.fundingDialogue =  true
-           
-        },
+        }
     },
     //
     computed: {
