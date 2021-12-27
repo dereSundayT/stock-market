@@ -44,7 +44,7 @@ class StockTest extends TestCase
     public function test_delete_stock_endpoint()
     {
         //
-        $stock = Stock::where('created_by', 1)->first();
+        $stock = Stock::where('created_by', 2)->first();
         $token = getTokenForTest();
         $response = $this->delete("/api/v1/stocks/1", [], ['Accept' => 'application/json', 'Authorization' => "Bearer $token"]);
         $response->assertStatus(200);

@@ -112,7 +112,9 @@ __webpack_require__.r(__webpack_exports__);
     this.authData = JSON.parse(localStorage.getItem('authData'));
 
     if (this.token === null) {
-      this.$router.push('home');
+      this.$router.push({
+        name: "home"
+      });
     }
   }
 });
@@ -446,6 +448,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.fetchClients();
   },
   methods: {
+    formatedErrorResponse: function formatedErrorResponse(error) {
+      this.loading = false;
+      this.formButtonControl = true;
+      var msg = error.response === undefined ? 'No internet, please ensure you are connected to the internet' : error.response.data.errors === undefined ? error.response.data.message : error.response.data.errors;
+      this.snackbar = true;
+
+      if (error.response.status === 401) {
+        localStorage.clear();
+        this.$router.push({
+          name: 'login'
+        });
+      } else {
+        return msg;
+      }
+    },
     addNewClientForm: function addNewClientForm() {
       this.edit = false;
       this.dialog = true;
@@ -476,32 +493,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.dialog = false;
                   _this.snackbar = true;
                   _this.stock = {};
+                  _this.loading = false;
+                  _this.formButtonControl = true;
 
                   _this.fetchClients();
-                } else {
-                  _this.msg = res.data.message;
                 }
 
-                _this.loading = false;
-                _this.formButtonControl = true;
-                _context.next = 17;
+                _context.next = 12;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](2);
-                // console.log(erri)
-                _this.loading = false;
-                _this.formButtonControl = true;
-                _this.msg = _context.t0.message;
-                _this.snackbar = true;
+                _this.msg = _this.formatedErrorResponse(_context.t0);
 
-              case 17:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 11]]);
+        }, _callee, null, [[2, 9]]);
       }))();
     },
     fetchClients: function fetchClients() {
@@ -530,26 +541,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                   initialClient.reverse();
                   _this2.clients = initialClient;
-                } else {
-                  _this2.msg = res.data.message;
+                  _this2.loading = false;
+                  _this2.formButtonControl = true;
                 }
 
-                _this2.loading = false;
-                _this2.formButtonControl = true;
-                _context2.next = 13;
+                _context2.next = 11;
                 break;
 
-              case 10:
-                _context2.prev = 10;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](1);
-                _this2.loading = false;
+                _this2.msg = _this2.formatedErrorResponse(_context2.t0);
 
-              case 13:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 10]]);
+        }, _callee2, null, [[1, 8]]);
       }))();
     } //
 
@@ -3480,6 +3489,23 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider my-0" }),
+      _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "nav-item active" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: { name: "dashboard" } } },
+            [
+              _c("i", { staticClass: "fas fa-fw fa-tachometer-alt" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Dashboard")]),
+            ]
+          ),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "li",

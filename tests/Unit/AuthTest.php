@@ -19,7 +19,7 @@ class AuthTest extends TestCase
     public function test_login_endpoint()
     {
         $response = $this->post('/api/v1/login', [
-            'email' => 'admin@demo.com',
+            'email' => 'test@demo.com',
             'password' => '123456'
         ]);
         $response->assertStatus(200);

@@ -9,4 +9,5 @@ php artisan migrate
 
 php artisan serve
 
-
+duplicate entry
+// "chart.js": "^3.7.0",

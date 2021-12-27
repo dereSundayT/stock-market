@@ -112,7 +112,9 @@ __webpack_require__.r(__webpack_exports__);
     this.authData = JSON.parse(localStorage.getItem('authData'));
 
     if (this.token === null) {
-      this.$router.push('home');
+      this.$router.push({
+        name: "home"
+      });
     }
   }
 });
@@ -500,6 +502,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.msg = '';
       this.snackbar = false;
     },
+    formatedErrorResponse: function formatedErrorResponse(error) {
+      this.loading = false;
+      this.formButtonControl = true;
+      var msg = error.response === undefined ? 'No internet, please ensure you are connected to the internet' : error.response.data.errors === undefined ? error.response.data.message : error.response.data.errors;
+      this.snackbar = true;
+
+      if (error.response.status === 401) {
+        localStorage.clear();
+        this.$router.push({
+          name: 'login'
+        });
+      } else {
+        return msg;
+      }
+    },
     validateForm: function validateForm(stock) {
       if (stock.company_name === "" || stock.unit_price === "") {
         this.loading = false;
@@ -534,7 +551,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.clr();
 
                 if (_this.validateForm(_this.stock)) {
-                  _context.next = 19;
+                  _context.next = 16;
                   break;
                 }
 
@@ -559,18 +576,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.loading = false;
                 _this.formButtonControl = true;
-                _context.next = 19;
+                _context.next = 16;
                 break;
 
               case 13:
                 _context.prev = 13;
                 _context.t0 = _context["catch"](4);
-                _this.loading = false;
-                _this.formButtonControl = true;
-                _this.msg = _context.t0.message;
-                _this.snackbar = true;
 
-              case 19:
+                _this.formatedErrorResponse(_context.t0);
+
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -625,7 +640,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 10:
                 _context2.prev = 10;
                 _context2.t0 = _context2["catch"](1);
-                _this2.loading = false;
+                _this2.msg = _this2.formatedErrorResponse(_context2.t0);
 
               case 13:
               case "end":
@@ -649,7 +664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this3.formButtonControl = false;
 
                 if (_this3.validateForm(_this3.stock)) {
-                  _context3.next = 18;
+                  _context3.next = 16;
                   break;
                 }
 
@@ -679,17 +694,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this3.loading = false;
                 _this3.formButtonControl = true;
-                _context3.next = 18;
+                _context3.next = 16;
                 break;
 
               case 13:
                 _context3.prev = 13;
                 _context3.t0 = _context3["catch"](4);
-                _this3.loading = false;
-                _this3.formButtonControl = true;
-                _this3.msg = _context3.t0.message;
 
-              case 18:
+                _this3.formatedErrorResponse(_context3.t0);
+
+              case 16:
               case "end":
                 return _context3.stop();
             }
@@ -741,16 +755,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   company_name: "",
                   unit_price: ""
                 };
-                _context5.next = 13;
+                _context5.next = 17;
                 break;
 
               case 5:
                 _this5.loading = true;
                 _this5.formButtonControl = false;
-                _context5.next = 9;
+                _context5.prev = 7;
+                _context5.next = 10;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("api/v1/stocks/".concat(_this5.stock.id));
 
-              case 9:
+              case 10:
                 res = _context5.sent;
 
                 if (res.data.status === "success") {
@@ -761,21 +776,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     company_name: "",
                     unit_price: ""
                   };
+                  _this5.loading = false;
+                  _this5.formButtonControl = true;
 
                   _this5.fetchStocks();
-                } else {
-                  _this5.msg = res.data.message;
                 }
 
-                _this5.loading = false;
-                _this5.formButtonControl = true;
+                _context5.next = 17;
+                break;
 
-              case 13:
+              case 14:
+                _context5.prev = 14;
+                _context5.t0 = _context5["catch"](7);
+                _this5.msg = _this5.formatedErrorResponse(_context5.t0);
+
+              case 17:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[7, 14]]);
       }))();
     }
   },
@@ -3705,6 +3725,23 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider my-0" }),
+      _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "nav-item active" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: { name: "dashboard" } } },
+            [
+              _c("i", { staticClass: "fas fa-fw fa-tachometer-alt" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Dashboard")]),
+            ]
+          ),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "li",

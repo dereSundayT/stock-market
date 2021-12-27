@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthApiController;
+use App\Http\Controllers\api\DashboardApiController;
 use App\Http\Controllers\api\StockApiController;
 use App\Http\Controllers\api\VirtualInvestmentApiController;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('login', [AuthApiController::class, 'login']);
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::get('dashboard', [DashboardApiController::class, 'index']);
         Route::post('logout', [AuthApiController::class, 'logout']);
         Route::apiResource('stocks', StockApiController::class, [
             'except' => ['show']

@@ -112,7 +112,9 @@ __webpack_require__.r(__webpack_exports__);
     this.authData = JSON.parse(localStorage.getItem('authData'));
 
     if (this.token === null) {
-      this.$router.push('home');
+      this.$router.push({
+        name: "home"
+      });
     }
   }
 });
@@ -3641,6 +3643,23 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider my-0" }),
+      _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "nav-item active" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: { name: "dashboard" } } },
+            [
+              _c("i", { staticClass: "fas fa-fw fa-tachometer-alt" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Dashboard")]),
+            ]
+          ),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "li",

@@ -35,7 +35,7 @@ function errorResponse($statusCode, $msg)
 
 function getTokenForTest()
 {
-    $user = User::where('email', 'admin@demo.com')->first();
+    $user = User::where('email', 'test@demo.com')->first();
     $token = $user->createToken('admin-login')->plainTextToken;
     return $token;
 }

@@ -29,7 +29,7 @@ class VirtaulInvestmentTest extends TestCase
     public function test_all_stock_for_client_endpoint()
     {
         $token = getTokenForTest();
-        $id = Client::where('created_by', 1)->first()->id;
+        $id = Client::where('created_by', 2)->first()->id;
         $response = $this->get("api/v1/virtual-investment/clients/$id", ['Accept' => 'application/json', 'Authorization' => "Bearer $token"]);
         $response->assertStatus(200);
     }
@@ -37,8 +37,8 @@ class VirtaulInvestmentTest extends TestCase
     public function test_purchase_stock_for_client_endpoint()
     {
         $token = getTokenForTest();
-        $client = Client::where('created_by', 1)->first();
-        $stock = Stock::where('created_by', 1)->first();
+        $client = Client::where('created_by', 2)->first();
+        $stock = Stock::where('created_by', 2)->first();
         $data = [
             'client_id' => $client->id,
             'stock_id' => $stock->id,

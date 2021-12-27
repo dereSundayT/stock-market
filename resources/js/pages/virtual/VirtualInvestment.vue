@@ -167,6 +167,23 @@ export default {
         this.fetchClients()
     },
     methods:{
+          formatedErrorResponse(error){
+            this.loading = false
+            this.formButtonControl = true
+            let msg = error.response === undefined
+					? 'No internet, please ensure you are connected to the internet'
+					: error.response.data.errors === undefined
+					? error.response.data.message
+					: error.response.data.errors
+            this.snackbar = true
+            if(error.response.status === 401){
+                    localStorage.clear();
+                    this.$router.push({name:'login'})
+            }else{
+                return msg
+            }
+
+        },
         addNewClientForm () {
             this.edit = false
             this.dialog = true
@@ -174,7 +191,6 @@ export default {
                 username : '',
             }
         },
-      
         async addNewClient() {
             this.loading = true
             this.formButtonControl = false
@@ -185,22 +201,16 @@ export default {
                     this.dialog = false
                     this.snackbar = true
                     this.stock = {}
+                     this.loading = false
+                    this.formButtonControl = true
                     this.fetchClients()
-                }else{
-                this.msg = res.data.message
                 }
-                this.loading = false
-                this.formButtonControl = true
             } catch (error) {
-                // console.log(erri)
-                this.loading = false
-                this.formButtonControl = true
-                this.msg = error.message
-                this.snackbar = true
+                this.msg  = this.formatedErrorResponse(error)
             }
            
         },
-       async fetchClients() {
+        async fetchClients() {
            this.loading = true
            try {
                const res = await axios.get('api/v1/virtual-investment/clients')
@@ -211,13 +221,11 @@ export default {
                     initialClient.sort((a,b) => a.profit_status - b.profit_status)
                     initialClient.reverse()
                     this.clients =  initialClient
-                }else{
-                    this.msg = res.data.message
+                    this.loading = false
+                    this.formButtonControl = true 
                 }
-                this.loading = false
-                this.formButtonControl = true   
             } catch (error) {
-               this.loading = false
+               this.msg = this.formatedErrorResponse(error)
            }
         },
       //

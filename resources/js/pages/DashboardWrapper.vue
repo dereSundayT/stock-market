@@ -46,7 +46,7 @@ export default {
         this.token  = localStorage.getItem('token')
         this.authData = JSON.parse(localStorage.getItem('authData'))
         if(this.token===null){
-            this.$router.push('home')
+            this.$router.push({ name: "home"})
         }
     }
 }

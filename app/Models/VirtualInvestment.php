@@ -19,11 +19,17 @@ class VirtualInvestment extends Model
 
 
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+
 
     public function getCurrentPriceAttribute()
     {
         $stock = Stock::select('unit_price')->where('id', $this->stock_id)->first();
-        return $stock->unit_price;
+        return $stock->unit_price ?? 0;
     }
 
 
@@ -31,7 +37,6 @@ class VirtualInvestment extends Model
     public function getProfitStatusAttribute()
     {
         $stock = Stock::where('id', $this->stock_id)->first();
-
         $total_current_price = $stock->unit_price * $this->volume;
         $purchase_price = $this->purchase_price * $this->volume;
 

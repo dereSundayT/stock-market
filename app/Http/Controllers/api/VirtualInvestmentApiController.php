@@ -27,7 +27,7 @@ class VirtualInvestmentApiController extends Controller
 
     public function getAllClient()
     {
-        $clients = Client::all();
+        $clients = Client::where('created_by', '!=', 2)->get();
         if ($clients) {
             return successResponse($clients, 200, 'Clients record fetched Successfully');
         } else {
@@ -89,7 +89,7 @@ class VirtualInvestmentApiController extends Controller
     public function allStockPurchaseByClient($client_id)
     {
         $stockPurchase =  VirtualInvestment::with(['stock'])->where('client_id', $client_id)->get();
-        $stocks = Stock::where('status', 1)->get();
+        $stocks = Stock::where('status', 1)->where('created_by', '!=', 2)->get();
         $user = Client::where('id', $client_id)->first();
 
         if (count($stockPurchase) > 0) {

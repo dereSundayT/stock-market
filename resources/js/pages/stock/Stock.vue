@@ -220,6 +220,23 @@ export default {
             this.msg = ''
             this.snackbar = false
         },
+        formatedErrorResponse(error){
+            this.loading = false
+            this.formButtonControl = true
+            let msg = error.response === undefined
+					? 'No internet, please ensure you are connected to the internet'
+					: error.response.data.errors === undefined
+					? error.response.data.message
+					: error.response.data.errors
+            this.snackbar = true
+            if(error.response.status === 401){
+                    localStorage.clear();
+                    this.$router.push({name:'login'})
+            }else{
+                return msg
+            }
+
+        },
         validateForm(stock) {
             if (stock.company_name === "" || stock.unit_price === "") {
                 this.loading = false;
@@ -243,7 +260,6 @@ export default {
             this.loading = true;
             this.formButtonControl = false;
             this.clr()
-
             if (!this.validateForm(this.stock)) {
                 try {
                     const res = await axios.post("api/v1/stocks", this.stock);
@@ -260,10 +276,7 @@ export default {
                     this.loading = false;
                     this.formButtonControl = true;
                 } catch (error) {
-                    this.loading = false;
-                    this.formButtonControl = true;
-                    this.msg = error.message;
-                    this.snackbar = true;
+                   this.formatedErrorResponse(error)
                 }
             }
         },
@@ -293,7 +306,7 @@ export default {
                 this.loading = false;
                 this.formButtonControl = true;
             } catch (error) {
-                this.loading = false;
+               this.msg =  this.formatedErrorResponse(error)
             }
         },
         //
@@ -324,9 +337,7 @@ export default {
                     this.loading = false;
                     this.formButtonControl = true;
                 } catch (error) {
-                    this.loading = false;
-                    this.formButtonControl = true;
-                    this.msg = error.message;
+                   this.formatedErrorResponse(error)
                 }
             }
         },
@@ -350,7 +361,8 @@ export default {
             } else {
                 this.loading = true;
                 this.formButtonControl = false;
-                const res = await axios.delete(
+                try {
+                    const res = await axios.delete(
                     `api/v1/stocks/${this.stock.id}`
                 );
                 if (res.data.status === "success") {
@@ -361,12 +373,13 @@ export default {
                         company_name: "",
                         unit_price: "",
                     };
+                    this.loading = false;
+                    this.formButtonControl = true;
                     this.fetchStocks();
-                } else {
-                    this.msg = res.data.message;
                 }
-                this.loading = false;
-                this.formButtonControl = true;
+                } catch (error) {
+                    this.msg = this.formatedErrorResponse(error)
+                }
             }
         },
     },
