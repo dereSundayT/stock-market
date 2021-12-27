@@ -129,8 +129,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       error: false,
       msg: '',
       form: {
-        email: "",
-        password: ""
+        email: "admin@demo.com",
+        password: "123456"
       }
     };
   },

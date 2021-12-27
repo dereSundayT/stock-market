@@ -97,8 +97,8 @@ export default {
             error : false,
             msg : '',
             form: {
-                email: "",
-                password: "",
+                email: "admin@demo.com",
+                password: "123456",
             },
         };
     },
