@@ -1,13 +1,18 @@
 <template>
-    <dashboard-wrapper :loading="loading" :snackbar="snackbar" :msg="msg"> 
-        <template slot="contents"> 
+    <dashboard-wrapper :loading="loading" :snackbar="snackbar" :msg="msg">
+        <template slot="contents">
             <h1 class="h3 mb-2 text-gray-800">Stock Listing</h1>
             <p class="mb-4"></p>
             <div class="card shadow mb-4">
                 <!-- page heading -->
                 <div class="card-header py-3 d-flex justify-content-between">
                     <!-- <button class="btn btn-danger btn-sm" @click="addNewStockForm">Trash()</button> -->
-                    <button class="btn btn-outline-primary btn-sm" @click="addNewStockForm">New Stock</button>
+                    <button
+                        class="btn btn-outline-primary btn-sm"
+                        @click="addNewStockForm"
+                    >
+                        New Stock
+                    </button>
                 </div>
                 <!-- end of page heading -->
                 <div class="card-body">
@@ -25,13 +30,13 @@
                                 />
                             </v-card-title>
                             <!-- datatable -->
-                            <v-data-table       
+                            <v-data-table
                                 :headers="headers"
                                 :items="itemsWithIndex"
                                 :search="search"
                                 :loading="loading"
                                 loading-text="Loading... Please wait"
-                            > 
+                            >
                                 <!-- action buttons -->
                                 <template v-slot:item.actions="{ item }">
                                     <v-icon
@@ -41,10 +46,7 @@
                                     >
                                         mdi-pencil
                                     </v-icon>
-                                    <v-icon
-                                        small
-                                        @click="confirmDel(item)"
-                                    >
+                                    <v-icon small @click="confirmDel(item)">
                                         mdi-delete
                                     </v-icon>
                                 </template>
@@ -53,37 +55,37 @@
                     </template>
                     <!-- datatablr -->
                     <!-- stock form modal for both Adding & Editting -->
-                   <v-row justify="center">
-                        <v-dialog
-                            v-model="dialog"
-                            persistent
-                            max-width="600px"
-                        >
+                    <v-row justify="center">
+                        <v-dialog v-model="dialog" persistent max-width="600px">
                             <v-card>
                                 <v-card-title>
-                                    <span class="text-h5" v-if="edit">Update Stock Unit Price</span>
-                                    <span class="text-h5" v-else>Add new Stock </span>
+                                    <span class="text-h5" v-if="edit"
+                                        >Update Stock Unit Price</span
+                                    >
+                                    <span class="text-h5" v-else
+                                        >Add new Stock
+                                    </span>
                                     <v-spacer></v-spacer>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-container>
-                                           <v-row>
+                                        <v-row>
                                             <v-col cols="12">
                                                 <v-text-field
-                                                label="Company name*"
-                                                type="text"
-                                                v-model="stock.company_name"
-                                                required
+                                                    label="Company name*"
+                                                    type="text"
+                                                    v-model="stock.company_name"
+                                                    required
                                                 ></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
                                                 <v-text-field
-                                                label="Stock unit Price*"
-                                                type="number"
-                                                v-model="stock.unit_price"
-                                                required
+                                                    label="Stock unit Price*"
+                                                    type="number"
+                                                    v-model="stock.unit_price"
+                                                    required
                                                 ></v-text-field>
                                             </v-col>
                                         </v-row>
@@ -94,7 +96,7 @@
                                     <v-btn
                                         color="blue darken-1"
                                         text
-                                        @click="dialog=false"
+                                        @click="dialog = false"
                                     >
                                         Close
                                     </v-btn>
@@ -117,31 +119,31 @@
                                 </v-card-actions>
                                 <v-card-actions v-else>
                                     <v-spacer></v-spacer>
-                                     <v-progress-circular
+                                    <v-progress-circular
                                         indeterminate
-                                        size="30">
-                                     </v-progress-circular>
+                                        size="30"
+                                    >
+                                    </v-progress-circular>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-row>
-                   <!-- confirm delete -->
-                    <v-dialog
-                        v-model="delDialog"
-                        width="500">
+                    <!-- confirm delete -->
+                    <v-dialog v-model="delDialog" width="500">
                         <v-card>
                             <v-card-title class="text-h5 grey lighten-2">
                                 Confirm Delete
                             </v-card-title>
                             <v-card-text>
-                              Are you sure you want to delete this stock <b>{{stock.company_name}}</b>
+                                Are you sure you want to delete this stock
+                                <b>{{ stock.company_name }}</b>
                             </v-card-text>
                             <v-divider></v-divider>
                             <!--  -->
                             <v-card-actions v-if="formButtonControl">
-                            <v-spacer></v-spacer>
+                                <v-spacer></v-spacer>
                                 <v-btn
-                                 class="ma-2"
+                                    class="ma-2"
                                     color="primary"
                                     depressed
                                     text
@@ -160,15 +162,13 @@
                             </v-card-actions>
                             <!--  -->
                             <v-card-actions v-else>
-                                    <v-spacer></v-spacer>
-                                     <v-progress-circular
-                                        indeterminate
-                                        size="30">
-                                     </v-progress-circular>
-                                </v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-progress-circular indeterminate size="30">
+                                </v-progress-circular>
+                            </v-card-actions>
                         </v-card>
                     </v-dialog>
-                <!-- end of confirm Delete -->
+                    <!-- end of confirm Delete -->
                 </div>
             </div>
         </template>
@@ -176,203 +176,207 @@
 </template>
 
 <script>
-import DashboardWrapper from '../DashboardWrapper.vue'
-import axios from 'axios'
+import DashboardWrapper from "../DashboardWrapper.vue";
+import axios from "axios";
 
 export default {
-    components:{DashboardWrapper},
-    data () {
+    components: { DashboardWrapper },
+    data() {
         return {
-            loading:false,
+            loading: false,
             dialog: false,
             delDialog: false,
-            search: '',
+            search: "",
             formButtonControl: true,
             //
             snackbar: false,
-            msg: '',
+            msg: "",
             //
             headers: [
-            {
-                text: 'S/N',
-                align: 'start',
-                sortable: false,
-                value: 'index',
-            },
-            { text: 'Company', value: 'company_name' },
-            { text: 'Unit price', value: 'formated_unit_price' },
-            { text: 'Updated at', value: 'updated_at' },
-            { text: 'Action', value: 'actions' },
+                {
+                    text: "S/N",
+                    align: "start",
+                    sortable: false,
+                    value: "index",
+                },
+                { text: "Company", value: "company_name" },
+                { text: "Unit price", value: "formated_unit_price" },
+                { text: "Updated at", value: "updated_at" },
+                { text: "Action", value: "actions" },
             ],
             stocks: [],
             edit: false,
-            stock : {
-                company_name : '',
-                unit_price : ''
-            }
-      }
+            stock: {
+                company_name: "",
+                unit_price: "",
+            },
+        };
     },
-    created () {
-        this.fetchStocks()
+    created() {
+        this.fetchStocks();
     },
-    methods:{
-        validateForm (stock) {
-            if(stock.company_name==='' || stock.unit_price===''){
-                this.loading= false
-                this.formButtonControl= true
-                this.snackbar = true
-                this.msg = 'Error:: Please fill all the field'
-                return true
-            }else{
-                return false
+    methods: {
+        clr() {
+            this.msg = ''
+            this.snackbar = false
+        },
+        validateForm(stock) {
+            if (stock.company_name === "" || stock.unit_price === "") {
+                this.loading = false;
+                this.formButtonControl = true;
+                this.snackbar = true;
+                this.msg = "Error:: Please fill all the field";
+                return true;
+            } else {
+                return false;
             }
         },
-        addNewStockForm () {
-            this.edit = false
-            this.dialog = true
-             this.stock = {
-                company_name : '',
-                unit_price : ''
-            }
+        addNewStockForm() {
+            this.edit = false;
+            this.dialog = true;
+            this.stock = {
+                company_name: "",
+                unit_price: "",
+            };
         },
         async addNewStock() {
-            this.loading = true
-            this.formButtonControl = false
-            
-            if(! this.validateForm(this.stock)){
+            this.loading = true;
+            this.formButtonControl = false;
+            this.clr()
+
+            if (!this.validateForm(this.stock)) {
                 try {
-                    const res = await axios.post('api/v1/stocks',this.stock)
-                    if(res.data.status==='success'){
-                        this.msg = res.data.message
-                        this.dialog = false
-                        this.snackbar = true
-                        this.stock = {}
-                        this.fetchStocks()
-                    }else{
-                    this.msg = res.data.message
-                    this.snackbar = true
+                    const res = await axios.post("api/v1/stocks", this.stock);
+                    if (res.data.status === "success") {
+                        this.msg = res.data.message;
+                        this.dialog = false;
+                        this.snackbar = true;
+                        this.stock = {};
+                        this.fetchStocks();
+                    } else {
+                        this.msg = res.data.message;
+                        this.snackbar = true;
                     }
-                    this.loading = false
-                    this.formButtonControl = true
+                    this.loading = false;
+                    this.formButtonControl = true;
                 } catch (error) {
-                    this.loading = false
-                    this.formButtonControl = true
-                    this.msg = error.message
-                    this.snackbar = true
+                    this.loading = false;
+                    this.formButtonControl = true;
+                    this.msg = error.message;
+                    this.snackbar = true;
                 }
-               
             }
         },
-        addUpdateStock () {
-            if(this.edit){
+        addUpdateStock() {
+            if (this.edit) {
                 //edit
-                this.updateUnitPrice()
-
-            }else{
+                this.updateUnitPrice();
+            } else {
                 //create new stock
-                this.addNewStock()
+                this.addNewStock();
             }
         },
-       async fetchStocks() {
-           this.loading = true
-           try {
-               const res = await axios.get('api/v1/stocks')
-                if(res.data.status==='success'){
-            // this.msg = res.data.message
-            let initialStock = res.data.data
-          //sorting by sortPrice
-            initialStock.sort((a,b) => a.unit_price - b.unit_price)
-            initialStock.reverse()
-            this.stocks =  initialStock
-         }else{
-             this.msg = res.data.message
-         }
-         this.loading = false
-        this.formButtonControl = true
-               
-           } catch (error) {
-               this.loading = false
-           }
-        },
-      //
-      async  updateUnitPrice() {
-          this.loading = true
-          this.formButtonControl = false
-          if(!this.validateForm(this.stock)){
-            const data = {
-              unit_price : this.stock.unit_price
-          }
-          try {
-              const res = await axios.put(`/api/v1/stocks/${this.stock.id}`,data)
-              if(res.data.status==='success'){
-                this.msg = res.data.message
-                this.dialog = false
-                this.snackbar = true
-                this.stock = {
-                    company_name : '',
-                    unit_price : ''
+        async fetchStocks() {
+            this.loading = true;
+            try {
+                const res = await axios.get("api/v1/stocks");
+                if (res.data.status === "success") {
+                    // this.msg = res.data.message
+                    let initialStock = res.data.data;
+                    //sorting by sortPrice
+                    initialStock.sort((a, b) => a.unit_price - b.unit_price);
+                    initialStock.reverse();
+                    this.stocks = initialStock;
+                } else {
+                    this.msg = res.data.message;
                 }
-                this.fetchStocks()
-            }else{
-                this.msg = res.data.message
+                this.loading = false;
+                this.formButtonControl = true;
+            } catch (error) {
+                this.loading = false;
             }
-            this.loading = false
-            this.formButtonControl = true  
-          } catch (error) {
-               this.loading = false
-               this.formButtonControl = true 
-               this.msg = error.message
-          }
-          }
         },
-     //
+        //
+        async updateUnitPrice() {
+            this.loading = true;
+            this.formButtonControl = false;
+            if (!this.validateForm(this.stock)) {
+                const data = {
+                    unit_price: this.stock.unit_price,
+                };
+                try {
+                    const res = await axios.put(
+                        `/api/v1/stocks/${this.stock.id}`,
+                        data
+                    );
+                    if (res.data.status === "success") {
+                        this.msg = res.data.message;
+                        this.dialog = false;
+                        this.snackbar = true;
+                        this.stock = {
+                            company_name: "",
+                            unit_price: "",
+                        };
+                        this.fetchStocks();
+                    } else {
+                        this.msg = res.data.message;
+                    }
+                    this.loading = false;
+                    this.formButtonControl = true;
+                } catch (error) {
+                    this.loading = false;
+                    this.formButtonControl = true;
+                    this.msg = error.message;
+                }
+            }
+        },
+        //
         editUnitPrice(stock) {
-            this.dialog = true
-            this.stock = stock
-            this.edit = true
+            this.dialog = true;
+            this.stock = stock;
+            this.edit = true;
         },
-    async confirmDel(stock){
-        this.stock = stock
-        this.delDialog  = true
-    },
-    async deleteStock (data) {
-        if(data==='no'){
-            this.delDialog = false
-            this.stock = {
-                company_name : '',
-                unit_price : ''
-            }
-        }else{
-            this.loading = true
-            this.formButtonControl = false
-            const res = await axios.delete(`api/v1/stocks/${this.stock.id}`)
-            if(res.data.status==='success'){
-                this.msg = res.data.message
-                this.delDialog = false
-                this.snackbar = true
+        async confirmDel(stock) {
+            this.stock = stock;
+            this.delDialog = true;
+        },
+        async deleteStock(data) {
+            if (data === "no") {
+                this.delDialog = false;
                 this.stock = {
-                    company_name : '',
-                    unit_price : ''
+                    company_name: "",
+                    unit_price: "",
+                };
+            } else {
+                this.loading = true;
+                this.formButtonControl = false;
+                const res = await axios.delete(
+                    `api/v1/stocks/${this.stock.id}`
+                );
+                if (res.data.status === "success") {
+                    this.msg = res.data.message;
+                    this.delDialog = false;
+                    this.snackbar = true;
+                    this.stock = {
+                        company_name: "",
+                        unit_price: "",
+                    };
+                    this.fetchStocks();
+                } else {
+                    this.msg = res.data.message;
                 }
-             this.fetchStocks()
-         }else{
-             this.msg = res.data.message
-         }
-        this.loading = false
-        this.formButtonControl = true
-        }
-
-    } , 
+                this.loading = false;
+                this.formButtonControl = true;
+            }
+        },
     },
     computed: {
-    itemsWithIndex() {
-      return this.stocks.map(
-        (items, index) => ({
-          ...items,
-          index: index + 1
-        }))
-    }
-  }
-    
-}
+        itemsWithIndex() {
+            return this.stocks.map((items, index) => ({
+                ...items,
+                index: index + 1,
+            }));
+        },
+    },
+};
 </script>
