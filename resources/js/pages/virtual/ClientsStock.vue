@@ -8,7 +8,7 @@
                 <div class="card-header py-3 d-flex justify-content-between">
                     <div> 
                         <!-- <span>back</span> -->
-                        <button class="btn btn-primary btn-sm" @click="fundClientWallet">Fund Wallet</button>
+                        <button class="btn btn-primary btn-sm" @click="fundClientWalletForm">Fund Wallet</button>
                     </div>
                     <button class="btn btn-outline-primary btn-sm"  @click="dialog=true">Purchase Stock</button>
                 </div>
@@ -140,6 +140,59 @@
                     </v-row>
                 </div>
             </div>
+            <!--  -->
+            <v-row justify="center">
+                        <v-dialog
+                            v-model="fundingDialogue"
+                            persistent
+                            max-width="600px"
+                        >
+                            <v-card>
+                                <v-card-title>
+                                    <span class="text-h5">Fund {{userDetails.username}} Wallet</span>
+                                    <v-spacer></v-spacer>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-container>
+                                           <v-row>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                label="amount*"
+                                                type="text"
+                                                v-model="new_amount"
+                                                required
+                                                ></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+                                <v-card-actions v-if="formButtonControl">
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="fundingDialogue=false"
+                                    >
+                                        Close
+                                    </v-btn>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="fundClientWallet"
+                                    >
+                                        Fund wallet
+                                    </v-btn>
+                                </v-card-actions>
+                                <v-card-actions v-else>
+                                    <v-spacer></v-spacer>
+                                     <v-progress-circular
+                                        indeterminate
+                                        size="30">
+                                     </v-progress-circular>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-row>
         </template>
     </dashboard-wrapper>
 </template>
@@ -155,6 +208,8 @@ export default {
             loading:false,
             dialog: false,
             formButtonControl: true,
+             fundingDialogue: false,
+             fundingDetails : '',
             //
             snackbar: false,
             msg: '',
@@ -177,9 +232,11 @@ export default {
             mystocks: [],
             userDetails : '', 
             summary : '', 
+            //
             selected : '',  
-            volume : 1
-        
+            volume : 1,
+            //
+            new_amount : 0
       }
     },
     created () {
@@ -214,6 +271,33 @@ export default {
         }, 
         //
         async fundClientWallet() {
+            this.loading = true
+            this.formButtonControl = false
+            const data = {
+                amount : this.new_amount,
+                client_id : this.clientID
+            }
+            try {
+               const res =  await axios.post('/api/v1/virtual-investment/clients/fund-wallet',data);
+                if(res.data.status==='success'){
+                    this.msg = res.data.message
+                    this.snackbar = true 
+                    this.loading = false
+                    this.formButtonControl = true
+                    this.fundingDialogue = false
+                    this.fetchClientStocks(this.clientID)
+                }else{
+                    this.msg = res.data.message
+                }
+                this.loading = false
+                this.formButtonControl = true   
+
+            } catch (error) {
+                 this.loading = false
+                this.formButtonControl = true  
+                
+            }
+            console.log(data)
 
         },
         async purchaseStock(){
@@ -245,7 +329,11 @@ export default {
                 this.loading = false
             }
            
-        }
+        },
+          fundClientWalletForm() {
+            this.fundingDialogue =  true
+           
+        },
     },
     //
     computed: {

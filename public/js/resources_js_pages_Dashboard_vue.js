@@ -67,6 +67,334 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1516,7 +1844,723 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("dashboard-wrapper", [_c("h1", [_vm._v("Dashboard")])])
+  return _c("dashboard-wrapper", [
+    _c("h1", [_vm._v("Dashboard")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "d-sm-flex align-items-center justify-content-between mb-4",
+        },
+        [
+          _c("h1", { staticClass: "h3 mb-0 text-gray-800" }, [
+            _vm._v("Dashboard"),
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm",
+              attrs: { href: "#" },
+            },
+            [
+              _c("i", { staticClass: "fas fa-download fa-sm text-white-50" }),
+              _vm._v(" Generate Report"),
+            ]
+          ),
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+          _c(
+            "div",
+            { staticClass: "card border-left-primary shadow h-100 py-2" },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "row no-gutters align-items-center" },
+                  [
+                    _c("div", { staticClass: "col mr-2" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "text-xs font-weight-bold text-primary text-uppercase mb-1",
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                Earnings (Monthly)"
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "h5 mb-0 font-weight-bold text-gray-800",
+                        },
+                        [_vm._v("$40,000")]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-auto" }, [
+                      _c("i", {
+                        staticClass: "fas fa-calendar fa-2x text-gray-300",
+                      }),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+          _c(
+            "div",
+            { staticClass: "card border-left-success shadow h-100 py-2" },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "row no-gutters align-items-center" },
+                  [
+                    _c("div", { staticClass: "col mr-2" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "text-xs font-weight-bold text-success text-uppercase mb-1",
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                Earnings (Annual)"
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "h5 mb-0 font-weight-bold text-gray-800",
+                        },
+                        [_vm._v("$215,000")]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-auto" }, [
+                      _c("i", {
+                        staticClass: "fas fa-dollar-sign fa-2x text-gray-300",
+                      }),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+          _c(
+            "div",
+            { staticClass: "card border-left-info shadow h-100 py-2" },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "row no-gutters align-items-center" },
+                  [
+                    _c("div", { staticClass: "col mr-2" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "text-xs font-weight-bold text-info text-uppercase mb-1",
+                        },
+                        [
+                          _vm._v(
+                            "Tasks\r\n                                            "
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row no-gutters align-items-center" },
+                        [
+                          _c("div", { staticClass: "col-auto" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "h5 mb-0 mr-3 font-weight-bold text-gray-800",
+                              },
+                              [_vm._v("50%")]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "div",
+                              { staticClass: "progress progress-sm mr-2" },
+                              [
+                                _c("div", {
+                                  staticClass: "progress-bar bg-info",
+                                  staticStyle: { width: "50%" },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "50",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-auto" }, [
+                      _c("i", {
+                        staticClass:
+                          "fas fa-clipboard-list fa-2x text-gray-300",
+                      }),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+          _c(
+            "div",
+            { staticClass: "card border-left-warning shadow h-100 py-2" },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "row no-gutters align-items-center" },
+                  [
+                    _c("div", { staticClass: "col mr-2" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "text-xs font-weight-bold text-warning text-uppercase mb-1",
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                Pending Requests"
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "h5 mb-0 font-weight-bold text-gray-800",
+                        },
+                        [_vm._v("18")]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-auto" }, [
+                      _c("i", {
+                        staticClass: "fas fa-comments fa-2x text-gray-300",
+                      }),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-8 col-lg-7" }, [
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-header py-3 d-flex flex-row align-items-center justify-content-between",
+              },
+              [
+                _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                  _vm._v("Earnings Overview"),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "dropdown no-arrow" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "dropdown-toggle",
+                      attrs: {
+                        href: "#",
+                        role: "button",
+                        id: "dropdownMenuLink",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false",
+                      },
+                    },
+                    [
+                      _c("i", {
+                        staticClass:
+                          "fas fa-ellipsis-v fa-sm fa-fw text-gray-400",
+                      }),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "dropdown-menu dropdown-menu-right shadow animated--fade-in",
+                      attrs: { "aria-labelledby": "dropdownMenuLink" },
+                    },
+                    [
+                      _c("div", { staticClass: "dropdown-header" }, [
+                        _vm._v("Dropdown Header:"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Action")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Another action")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "dropdown-divider" }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Something else here")]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "chart-area" }, [
+                _c("canvas", { attrs: { id: "myAreaChart" } }),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-4 col-lg-5" }, [
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-header py-3 d-flex flex-row align-items-center justify-content-between",
+              },
+              [
+                _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                  _vm._v("Revenue Sources"),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "dropdown no-arrow" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "dropdown-toggle",
+                      attrs: {
+                        href: "#",
+                        role: "button",
+                        id: "dropdownMenuLink",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false",
+                      },
+                    },
+                    [
+                      _c("i", {
+                        staticClass:
+                          "fas fa-ellipsis-v fa-sm fa-fw text-gray-400",
+                      }),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "dropdown-menu dropdown-menu-right shadow animated--fade-in",
+                      attrs: { "aria-labelledby": "dropdownMenuLink" },
+                    },
+                    [
+                      _c("div", { staticClass: "dropdown-header" }, [
+                        _vm._v("Dropdown Header:"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Action")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Another action")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "dropdown-divider" }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Something else here")]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "chart-pie pt-4 pb-2" }, [
+                _c("canvas", { attrs: { id: "myPieChart" } }),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "mt-4 text-center small" }, [
+                _c("span", { staticClass: "mr-2" }, [
+                  _c("i", { staticClass: "fas fa-circle text-primary" }),
+                  _vm._v(" Direct\r\n                                        "),
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "mr-2" }, [
+                  _c("i", { staticClass: "fas fa-circle text-success" }),
+                  _vm._v(" Social\r\n                                        "),
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "mr-2" }, [
+                  _c("i", { staticClass: "fas fa-circle text-info" }),
+                  _vm._v(
+                    " Referral\r\n                                        "
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-6 mb-4" }, [
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c("div", { staticClass: "card-header py-3" }, [
+              _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                _vm._v("Projects"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("h4", { staticClass: "small font-weight-bold" }, [
+                _vm._v("Server Migration "),
+                _c("span", { staticClass: "float-right" }, [_vm._v("20%")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress mb-4" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-danger",
+                  staticStyle: { width: "20%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "20",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100",
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "small font-weight-bold" }, [
+                _vm._v("Sales Tracking "),
+                _c("span", { staticClass: "float-right" }, [_vm._v("40%")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress mb-4" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-warning",
+                  staticStyle: { width: "40%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "40",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100",
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "small font-weight-bold" }, [
+                _vm._v("Customer Database "),
+                _c("span", { staticClass: "float-right" }, [_vm._v("60%")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress mb-4" }, [
+                _c("div", {
+                  staticClass: "progress-bar",
+                  staticStyle: { width: "60%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "60",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100",
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "small font-weight-bold" }, [
+                _vm._v("Payout Details "),
+                _c("span", { staticClass: "float-right" }, [_vm._v("80%")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress mb-4" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "80%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "80",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100",
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "small font-weight-bold" }, [
+                _vm._v("Account Setup "),
+                _c("span", { staticClass: "float-right" }, [
+                  _vm._v("Complete!"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-success",
+                  staticStyle: { width: "100%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "100",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100",
+                  },
+                }),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-primary text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Primary\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#4e73df"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-success text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Success\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#1cc88a"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-info text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Info\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#36b9cc"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-warning text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Warning\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#f6c23e"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-danger text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Danger\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#e74a3b"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c(
+                "div",
+                { staticClass: "card bg-secondary text-white shadow" },
+                [
+                  _c("div", { staticClass: "card-body" }, [
+                    _vm._v(
+                      "\r\n                                            Secondary\r\n                                            "
+                    ),
+                    _c("div", { staticClass: "text-white-50 small" }, [
+                      _vm._v("#858796"),
+                    ]),
+                  ]),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-light text-black shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Light\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-black-50 small" }, [
+                    _vm._v("#f8f9fc"),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-6 mb-4" }, [
+              _c("div", { staticClass: "card bg-dark text-white shadow" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _vm._v(
+                    "\r\n                                            Dark\r\n                                            "
+                  ),
+                  _c("div", { staticClass: "text-white-50 small" }, [
+                    _vm._v("#5a5c69"),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-6 mb-4" }, [
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c("div", { staticClass: "card-header py-3" }, [
+              _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                _vm._v("Illustrations"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "text-center" }, [
+                _c("img", {
+                  staticClass: "img-fluid px-3 px-sm-4 mt-3 mb-4",
+                  staticStyle: { width: "25rem" },
+                  attrs: { src: "img/undraw_posting_photo.svg", alt: "..." },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "Add some quality, svg illustrations to your project courtesy of "
+                ),
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      target: "_blank",
+                      rel: "nofollow",
+                      href: "https://undraw.co/",
+                    },
+                  },
+                  [_vm._v("unDraw")]
+                ),
+                _vm._v(
+                  ", a\r\n                                        constantly updated collection of beautiful svg images that you can use\r\n                                        completely free and without attribution!"
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  attrs: {
+                    target: "_blank",
+                    rel: "nofollow",
+                    href: "https://undraw.co/",
+                  },
+                },
+                [
+                  _vm._v(
+                    "Browse Illustrations on\r\n                                        unDraw →"
+                  ),
+                ]
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card shadow mb-4" }, [
+            _c("div", { staticClass: "card-header py-3" }, [
+              _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                _vm._v("Development Approach"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("p", [
+                _vm._v(
+                  "SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce\r\n                                        CSS bloat and poor page performance. Custom CSS classes are used to create\r\n                                        custom components and custom utility classes."
+                ),
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "mb-0" }, [
+                _vm._v(
+                  "Before working with this theme, you should become familiar with the\r\n                                        Bootstrap framework, especially the utility classes."
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

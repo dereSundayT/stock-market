@@ -127,4 +127,21 @@ class VirtualInvestmentApiController extends Controller
             return errorResponse(500, 'Failed to fetch purchase history for this client');
         }
     }
+
+
+    public function fundClientWallet(Request $request)
+    {
+        //
+        $this->validate($request, [
+            'amount' => 'required',
+            'client_id' => 'required'
+        ]);
+        //
+        $client = Client::where('id', $request->client_id)->first();
+
+        $newAmount = $request->amount +  $client->virtual_wallet;
+        if ($client->update(['virtual_wallet' => $newAmount])) {
+            return successResponse([], 200, 'Client wallet funded Successfully');
+        }
+    }
 }
