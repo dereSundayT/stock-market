@@ -245,90 +245,94 @@ export default {
         this.fetchClientStocks(cid)
     },
     methods:{
+        formatErrorResponse(error){
+            this.loading = false
+            this.formButtonControl = true
+            let msg = error.response === undefined
+					? 'No internet, please ensure you are connected to the internet'
+					: error.response.data.errors === undefined
+					? error.response.data.message
+					: error.response.data.errors
+            this.snackbar = true
+            return msg
+
+        },
        async fetchClientStocks(id) {
            this.loading = true
            try {
                const res = await axios.get(`/api/v1/virtual-investment/clients/${id}`)
                if(res.data.status==='success'){
                     this.msg = res.data.message
-                    let initialStock = res.data.data
-                    //sorting by sortPrice
-                    // console.log(initialClient)
-                    // initialStock.sort((a,b) => a.unit_price - b.unit_price)
-                    // initialStock.reverse()
-                    this.mystocks =  initialStock
+                    //client  stock
+                    this.mystocks =  res.data.data
+                    //array of stocks on the system
                     this.stocks = res.data.stocks
+                    //client's detail
                     this.userDetails = res.data.user
+                    //client overall summary of purchased stock
                     this.summary = res.data.summary
-                }else{
-                    this.msg = res.data.message
+                    this.loading = false
+                    this.formButtonControl = true   
                 }
-                this.loading = false
-                this.formButtonControl = true   
             } catch (error) {
-               this.loading = false
+               this.msg =	this.formatErrorResponse(error)
            }
         }, 
         //
         async fundClientWallet() {
             this.loading = true
-            this.formButtonControl = false
-            const data = {
-                amount : this.new_amount,
-                client_id : this.clientID
-            }
-            try {
-               const res =  await axios.post('/api/v1/virtual-investment/clients/fund-wallet',data);
-                if(res.data.status==='success'){
-                    this.msg = res.data.message
-                    this.snackbar = true 
-                    this.loading = false
-                    this.formButtonControl = true
-                    this.fundingDialogue = false
-                    this.fetchClientStocks(this.clientID)
-                }else{
-                    this.msg = res.data.message
+            if(this.new_amount ===0 || this.new_amount === ''){
+                this.msg = 'Amount field is required/Amount cant be Zero'
+                this.snackbar = true
+            }else{
+                this.formButtonControl = false
+                const data = {
+                    amount : this.new_amount,
+                    client_id : this.clientID
                 }
-                this.loading = false
-                this.formButtonControl = true   
-
-            } catch (error) {
-                 this.loading = false
-                this.formButtonControl = true  
-                
+                try {
+                const res =  await axios.post('/api/v1/virtual-investment/clients/fund-wallet',data);
+                    if(res.data.status==='success'){
+                        this.msg = res.data.message
+                        this.snackbar = true 
+                        this.loading = false
+                        this.formButtonControl = true
+                        this.fundingDialogue = false
+                        this.fetchClientStocks(this.clientID)
+                        this.loading = false
+                        this.formButtonControl = true   
+                    }
+                } catch (error) {
+                    this.msg =	this.formatErrorResponse(error)
+                }
             }
-            console.log(data)
-
+           
         },
         async purchaseStock(){
             this.loading = true
             this.formButtonControl = false
-            let data = {
-                volume:this.volume,
-                stock_id:this.selected,
-                client_id:this.clientID
+            if(this.volume !=='' || this.selected !==''){
+                let data = {
+                    volume:this.volume,
+                    stock_id:this.selected,
+                    client_id:this.clientID
                 }
-            try {
-                const res = await axios.post('/api/v1/virtual-investment',data)
-                if(res.data.status==='success'){
-                this.msg = res.data.message
-                this.snackbar = true
-                this.dialog = false
-                this.selected = ''
-                this.volume = 1
-                this.formButtonControl = true
-                this.fetchClientStocks(this.clientID)
-
-            }else{
-                this.msg = res.data.message
+                try {
+                    const res = await axios.post('/api/v1/virtual-investment',data)
+                    if(res.data.status==='success'){
+                    this.msg = res.data.message
+                    this.snackbar = true
+                    this.dialog = false
+                    this.selected = ''
+                    this.volume = 1
+                    this.loading = false
+                    this.formButtonControl = true
+                    this.fetchClientStocks(this.clientID)
+                }
+                } catch (error) {
+                    this.msg = this.formatErrorResponse(error)
+                }
             }
-            this.loading = false
-            this.formButtonControl = true
-                
-            } catch (error) {
-                this.loading = false
-            }
-           
         },
           fundClientWalletForm() {
             this.fundingDialogue =  true
