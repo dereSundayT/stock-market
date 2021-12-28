@@ -220,7 +220,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.getDashboardSummary();
   }
 });
