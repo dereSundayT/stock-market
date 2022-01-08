@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stock;
+use App\Models\VirtualInvestment;
 use Illuminate\Http\Request;
 
 class StockApiController extends Controller
@@ -93,12 +94,17 @@ class StockApiController extends Controller
         //
         $stock = Stock::where('id', $id)->first();
 
-        if ($stock) {
-            $stock->update(['status' => 2]);
+        $virtual_inv = VirtualInvestment::where('stock_id', $stock->id)->count();
+        if ($virtual_inv == 0) {
+            if ($stock) {
+                $stock->update(['status' => 2]);
 
-            return successResponse([], 200, 'Stock deleted Successfully');
+                return successResponse([], 200, 'Stock deleted Successfully');
+            } else {
+                return errorResponse(500, 'Failed to delete Stock');
+            }
         } else {
-            return errorResponse(500, 'Failed to delete Stock');
+            return errorResponse(401, 'You cant delete this stock,A refernece to this Stock exists');
         }
     }
 }
