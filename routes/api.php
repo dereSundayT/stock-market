@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     //
-    Route::post('login', [AuthApiController::class, 'login']);
+    Route::post('login', [AuthApiController::class, 'login'])->name('auth.login');
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('dashboard', [DashboardApiController::class, 'index']);
-        Route::post('logout', [AuthApiController::class, 'logout']);
+        Route::post('logout', [AuthApiController::class, 'logout'])->name('auth.logout');
         Route::apiResource('stocks', StockApiController::class, [
             'except' => ['show']
         ]);
