@@ -20,10 +20,15 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('stocks', StockApiController::class, [
             'except' => ['show']
         ]);
-        Route::get('virtual-investment/clients/{client_id}', [VirtualInvestmentApiController::class, 'allStockPurchaseByClient']);
+        Route::get('virtual-investment/clients/{client_id}', [VirtualInvestmentApiController::class, 'allStockPurchaseByClient'])->name('virtual.clients.stock');
         Route::post('virtual-investment/clients/fund-wallet', [VirtualInvestmentApiController::class, 'fundClientWallet']);
-        Route::post('virtual-investment/clients', [VirtualInvestmentApiController::class, 'addNewClient']);
-        Route::get('virtual-investment/clients', [VirtualInvestmentApiController::class, 'getAllClient']);
+
+        Route::post('virtual-investment/clients', [VirtualInvestmentApiController::class, 'addNewClient'])
+            ->name('virtual.clients.store');
+
+        Route::get('virtual-investment/clients', [VirtualInvestmentApiController::class, 'getAllClient'])
+            ->name('virtual.clients.index');
+
         Route::apiResource('virtual-investment', VirtualInvestmentApiController::class, ['only' => 'store']);
     });
 });
