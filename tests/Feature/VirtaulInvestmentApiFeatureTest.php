@@ -50,7 +50,8 @@ class VirtaulInvestmentApiFeatureTest extends TestCase
         //
         $purchased  = VirtualInvestment::factory()->create([
             'client_id' => $client->id,
-            'stock_id' => $stock->id
+            'stock_id' => $stock->id,
+            'created_by' => $user->id
         ]);
 
 
