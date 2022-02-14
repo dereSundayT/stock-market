@@ -16,7 +16,9 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->double('virtual_wallet')->default(1000);
+            $table->float('virtual_wallet')
+                ->unsigned()
+                ->default(1000);
             $table->foreignId('created_by');
             $table->timestamps();
         });

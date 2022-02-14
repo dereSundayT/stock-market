@@ -61,4 +61,6 @@ class VirtaulInvestmentApiFeatureTest extends TestCase
 
         //TODO assert that the data fetched is for the right user
     }
+
+    //DB structure allows entering negative values for volume and stock due to the usage of decimal data type.
 }

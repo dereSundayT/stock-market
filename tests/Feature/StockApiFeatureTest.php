@@ -28,7 +28,7 @@ class StockApiFeatureTest extends TestCase
     {
         $user = User::factory()->create();
         Sanctum::actingAs($user);
-        $stock = Stock::factory()->raw();
+        $stock = Stock::factory()->raw(['unit_price' => -1]);
 
         $response = $this->postJson('/api/v1/stocks', $stock)
             ->assertCreated();

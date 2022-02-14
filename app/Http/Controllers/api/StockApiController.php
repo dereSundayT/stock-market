@@ -32,8 +32,8 @@ class StockApiController extends Controller
         //
         $user =  auth()->user();
         $this->validate($request, [
-            'company_name' => 'required',
-            'unit_price' => 'required'
+            'company_name' => 'required|string',
+            'unit_price' => 'required|numeric|gt:0'
         ]);
 
         $request['created_by'] = $user->id;

@@ -16,7 +16,7 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
-            $table->decimal('unit_price', 5, 2);
+            $table->float('unit_price')->unsigned();
             $table->boolean('status')->default(1); //0 inactive 1: active 2 : deleted
             $table->foreignId('created_by');
             $table->timestamps();

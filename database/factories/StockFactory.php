@@ -16,7 +16,7 @@ class StockFactory extends Factory
     {
         return [
             //
-            'company_name' => $this->faker->sentence,
+            'company_name' => $this->faker->sentence(),
             'unit_price' => $this->faker->numerify('#'),
             'status' => 1,
             'created_by' => function () {
