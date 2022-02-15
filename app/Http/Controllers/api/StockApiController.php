@@ -17,7 +17,7 @@ class StockApiController extends Controller
     public function index()
     {
         //
-        $stocks = Stock::where('status', 1)->where('created_by', '!=', 2)->get();
+        $stocks = Stock::where('status', 1)->get();
         return successResponse($stocks, 200, 'Stock feteched Successfully');
     }
 

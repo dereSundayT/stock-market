@@ -18,11 +18,11 @@ class DashboardApiController extends Controller
         $fromDate = $request->fromDate ?? new Carbon('first day of this month');
         $toDate = $request->toDate ?? new Carbon('last day of this month');
         //
-        $stocks = Stock::where('status', 1)->where('created_by', '!=', 2)->whereBetween('created_at', [$fromDate, $toDate])->count();
-        $clients = Client::where('created_by', '!=', 2)->whereBetween('created_at', [$fromDate, $toDate])->count();
+        $stocks = Stock::where('status', 1)->whereBetween('created_at', [$fromDate, $toDate])->count();
+        $clients = Client::whereBetween('created_at', [$fromDate, $toDate])->count();
         $purchasedStock = VirtualInvestment::whereBetween('created_at', [$fromDate, $toDate])->count();
 
-        $virtualInv = VirtualInvestment::where('created_by', '!=', 2)->whereBetween('created_at', [$fromDate, $toDate])->select(DB::raw('client_id,stock_id,volume,purchase_price,sum(purchase_price * volume) as total'))->groupBy('client_id')->get();
+        $virtualInv = VirtualInvestment::whereBetween('created_at', [$fromDate, $toDate])->select(DB::raw('client_id,stock_id,volume,purchase_price,sum(purchase_price * volume) as total'))->groupBy('client_id')->get();
 
         $lineGraph = [];
         $labels = [];
