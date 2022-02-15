@@ -69,7 +69,7 @@ class StockApiController extends Controller
         $stock = Stock::where('id', $id)->first();
         if ($stock) {
             $this->validate($request, [
-                'unit_price' => 'required'
+                'unit_price' => 'required|numeric|gt:0'
             ]);
             $q =  $stock->update($request->all());
             if ($q) {

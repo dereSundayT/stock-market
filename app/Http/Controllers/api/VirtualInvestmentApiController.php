@@ -55,7 +55,7 @@ class VirtualInvestmentApiController extends Controller
         $this->validate($request, [
             'client_id' => 'required',
             'stock_id' => 'required',
-            'volume' => 'required',
+            'volume' => 'required|numeric|gt:0',
         ]);
 
         $user = auth()->user();
@@ -133,7 +133,7 @@ class VirtualInvestmentApiController extends Controller
     {
         //
         $this->validate($request, [
-            'amount' => 'required',
+            'amount' => 'required|numeric|gt:0',
             'client_id' => 'required'
         ]);
         //
